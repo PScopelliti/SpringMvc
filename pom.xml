@@ -8,7 +8,7 @@
     <name>SimpleSpringMVC</name>
 
     <properties>
-        <spring.version>4.1.1.RELEASE</spring.version>
+        <spring.version>4.1.7.RELEASE</spring.version>
         <servlet.version>3.0</servlet.version>
         <servlet.api.version>2.5</servlet.api.version>
         <servlet.jsp.version>2.1</servlet.jsp.version>
@@ -18,12 +18,15 @@
         <hamcrest.library.version>1.3</hamcrest.library.version>
         <commons.lang3.version>3.0</commons.lang3.version>
         <mysql.connector.version>5.1.36</mysql.connector.version>
+        <hibernate.version>4.3.10.Final</hibernate.version>
         <commons.collection.version>3.2.1</commons.collection.version>
+        <slf4j.version>1.7.12</slf4j.version>
     </properties>
 
-    <!-- Spring  -->
-
     <dependencies>
+
+        <!-- Spring -->
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -35,6 +38,27 @@
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Servlet-->
 
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -56,25 +80,28 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- my sql connector -->
 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.connector.version}</version>
+        </dependency>
+
+        <!-- Hibernate 4 -->
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <!-- sl4j library-->
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <!-- Commons libraries-->

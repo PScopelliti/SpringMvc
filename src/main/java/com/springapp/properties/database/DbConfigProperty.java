@@ -1,10 +1,10 @@
-package com.springapp.configuration.database;
+package com.springapp.properties.database;
 
-import com.springapp.configuration.ConfigProperty;
+import com.springapp.properties.ConfigProperty;
 
 
 /**
- * Implementation of {@link com.springapp.configuration.ConfigProperty}
+ * Implementation of {@link ConfigProperty}
  */
 public enum DbConfigProperty implements ConfigProperty {
 
@@ -17,20 +17,20 @@ public enum DbConfigProperty implements ConfigProperty {
 
 
     //Show or not log for each sql query
-    SPRING_SHOW_SQL_LOG("spring.jpa.show-sql","true"),
+    SPRING_SHOW_SQL_LOG("hibernate.show_sql","true"),
+    SPRING_FORMAT_SQL_LOG("hibernate.format_sql","true"),
 
     // Hibernate ddl auto (create, create-drop, update)
-    SPRING_DDL_AUTO("spring.jpa.hibernate.ddl-auto" ,"update"),
+    SPRING_DDL_AUTO("hibernate.hbm2ddl.auto" ,"update"),
 
     // Naming strategy
-    SPRING_NAMING_STRATEGY("spring.jpa.hibernate.naming-strategy","org.hibernate.cfg.ImprovedNamingStrategy"),
+    SPRING_NAMING_STRATEGY("hibernate.ejb.naming_strategy","org.hibernate.cfg.ImprovedNamingStrategy"),
 
     // Use spring.jpa.properties.* for Hibernate native properties (the prefix is
     // stripped before adding them to the entity manager)
 
     //The SQL dialect makes Hibernate generate better SQL for the chosen database.
-    SPRING_JPA_DIALECT("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-
+    SPRING_JPA_DIALECT("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 
     private final String propertyName;
     private final String defaultValue;

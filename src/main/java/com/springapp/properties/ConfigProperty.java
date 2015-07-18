@@ -1,4 +1,4 @@
-package com.springapp.configuration;
+package com.springapp.properties;
 
 /**
  * Represents an abstract client property
