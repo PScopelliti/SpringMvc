@@ -12,7 +12,8 @@ import static org.springframework.context.annotation.ComponentScan.Filter;
  *  Class for general application configuration.
  */
 @Configuration
-@ComponentScan(basePackageClasses = Application.class, excludeFilters = @Filter({Controller.class, Configuration.class}))
+@ComponentScan(basePackageClasses = Application.class,
+        excludeFilters = @Filter({Controller.class, Configuration.class}))
 public class ApplicationConfig {
 
 

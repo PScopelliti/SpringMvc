@@ -9,6 +9,7 @@
 
     <properties>
         <spring.version>4.1.7.RELEASE</spring.version>
+        <spring.data.jpa.version>1.8.1.RELEASE</spring.data.jpa.version>
         <servlet.version>3.0</servlet.version>
         <servlet.api.version>2.5</servlet.api.version>
         <servlet.jsp.version>2.1</servlet.jsp.version>
@@ -56,6 +57,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.data.jpa.version}</version>
         </dependency>
 
         <!-- Servlet-->

@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -21,14 +23,15 @@ import java.util.Properties;
  * Class that define persistence configuration.
  */
 @Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+        basePackages = {
+        "com.springapp.jpa.repository"
+})
 public class PersistenceConfiguration {
 
-    private final DbConfig dbConfig;
-
     @Autowired
-    public PersistenceConfiguration(final DbConfig dbConfig){
-        this.dbConfig = dbConfig;
-    }
+    private DbConfig dbConfig;
 
     // Configuring Data Source
     @Bean
@@ -42,15 +45,18 @@ public class PersistenceConfiguration {
     }
 
     // Configuring entity manager factory bean.
+    // Produces a container-managed EntityManagerFactory.
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"org.baeldung.persistence.model"});
+        em.setPackagesToScan(new String[]{"com.springapp.jpa.model"}); // Scan the classes annotated with entity.
 
+        // We use hibernate ok JPA implementation.
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(additionalProperties());
+
 
         return em;
     }
@@ -58,7 +64,7 @@ public class PersistenceConfiguration {
     // Configuring transaction manager
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        final JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
 
         return transactionManager;
@@ -77,23 +83,19 @@ public class PersistenceConfiguration {
 
         //Specifies the action that is invoked to the database when the Hibernate
         //SessionFactory is created or closed.
-        properties.put("hibernate.hbm2ddl.auto",
-                dbConfig.getPropertyValue(DbConfigProperty.SPRING_DDL_AUTO));
+        properties.put("hibernate.hbm2ddl.auto", dbConfig.getPropertyValue(DbConfigProperty.SPRING_DDL_AUTO));
 
         //Configures the naming strategy that is used when Hibernate creates
         //new database objects and schema elements
-        properties.put("hibernate.ejb.naming_strategy",
-                dbConfig.getPropertyValue(DbConfigProperty.SPRING_NAMING_STRATEGY));
+        properties.put("hibernate.ejb.naming_strategy", dbConfig.getPropertyValue(DbConfigProperty.SPRING_NAMING_STRATEGY));
 
         //If the value of this property is true, Hibernate writes all SQL
         //statements to the console.
-        properties.put("hibernate.show_sql",
-                dbConfig.getPropertyValue(DbConfigProperty.SPRING_SHOW_SQL_LOG));
+        properties.put("hibernate.show_sql", dbConfig.getPropertyValue(DbConfigProperty.SPRING_SHOW_SQL_LOG));
 
         //If the value of this property is true, Hibernate will format the SQL
         //that is written to the console.
-        properties.put("hibernate.format_sql",
-                dbConfig.getPropertyValue(DbConfigProperty.SPRING_FORMAT_SQL_LOG));
+        properties.put("hibernate.format_sql", dbConfig.getPropertyValue(DbConfigProperty.SPRING_FORMAT_SQL_LOG));
 
         return properties;
     }

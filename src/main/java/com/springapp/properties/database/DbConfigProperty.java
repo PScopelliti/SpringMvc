@@ -11,9 +11,9 @@ public enum DbConfigProperty implements ConfigProperty {
     // DataSource settings: set here your own configurations for the database
     // connection. In this example we have "netgloo_blog" as database name and
     // "root" as username and password.
-    SPRING_DATASOURCE_URL("spring.datasource.url", "jdbc:mysql://localhost:8889/netgloo_blog"),
+    SPRING_DATASOURCE_URL("spring.datasource.url", "jdbc:mysql://localhost:3306/Spring"),
     SPRING_DATASOURCE_USERNAME("spring.datasource.username", "root"),
-    SPRING_DATASOURCE_PASSWORD("spring.datasource.password", "root"),
+    SPRING_DATASOURCE_PASSWORD("spring.datasource.password", "Peppino83!57"),
 
 
     //Show or not log for each sql query
@@ -30,7 +30,7 @@ public enum DbConfigProperty implements ConfigProperty {
     // stripped before adding them to the entity manager)
 
     //The SQL dialect makes Hibernate generate better SQL for the chosen database.
-    SPRING_JPA_DIALECT("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+    SPRING_JPA_DIALECT("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
 
     private final String propertyName;
     private final String defaultValue;

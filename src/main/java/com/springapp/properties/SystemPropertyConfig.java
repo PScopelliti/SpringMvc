@@ -2,7 +2,6 @@ package com.springapp.properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +9,6 @@ import java.util.Map;
 /**
  * Represents a system property implementation of config
  */
-@Component
 public class SystemPropertyConfig implements Config {
 
     /**

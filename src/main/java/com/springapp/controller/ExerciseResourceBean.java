@@ -10,9 +10,9 @@ import org.springframework.ui.ModelMap;
 @Controller
 public class ExerciseResourceBean implements ExerciseResource {
 
-
     public String printWelcome(final ModelMap model) {
         model.addAttribute("message", "");
         return "exercise";
     }
+
 }
