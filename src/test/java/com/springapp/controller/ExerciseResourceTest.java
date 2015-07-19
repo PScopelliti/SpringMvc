@@ -1,11 +1,12 @@
 package com.springapp.controller;
 
+import com.springapp.configuration.web.WebMvcConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -13,9 +14,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @RunWith(MockitoJUnitRunner.class)
+@ContextConfiguration(classes = {WebMvcConfig.class}, loader = AnnotationConfigContextLoader.class)
 public class ExerciseResourceTest {
 
-    @InjectMocks
+    //@InjectMocks
     private ExerciseResource exerciseResource;
 
     private MockMvc mockMvc;
@@ -23,8 +25,9 @@ public class ExerciseResourceTest {
     @Before
     public void setup() {
         // Process mock annotations
-        MockitoAnnotations.initMocks(this);
+//        MockitoAnnotations.initMocks(this);
 
+        exerciseResource = new ExerciseResourceBean();
         // Setup Spring test in standalone mode
         this.mockMvc = MockMvcBuilders.standaloneSetup(exerciseResource).build();
     }
