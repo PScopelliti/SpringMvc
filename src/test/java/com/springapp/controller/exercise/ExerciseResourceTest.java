@@ -55,7 +55,7 @@ public class ExerciseResourceTest {
         // Setup Spring test in standalone mode
         this.mockMvc = MockMvcBuilders
                 .standaloneSetup(sut)
-                .setSingleView(new InternalResourceView("/WEB-INF/views/exercise.jsp"))
+                .setSingleView(new InternalResourceView("/WEB-INF/views/exercises.jsp"))
                 .build();
 
         mockMvc.perform(get("/exercises"))
