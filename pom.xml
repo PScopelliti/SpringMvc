@@ -21,6 +21,7 @@
         <hibernate.version>4.3.10.Final</hibernate.version>
         <commons.collection.version>3.2.1</commons.collection.version>
         <slf4j.version>1.7.12</slf4j.version>
+        <javax.version>1.0.0.GA</javax.version>
         <jstl.version>1.2</jstl.version>
     </properties>
 
@@ -154,6 +155,14 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>${hamcrest.version}</version>
+        </dependency>
+
+        <!-- javax validation -->
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${javax.validation}</version>
         </dependency>
 
     </dependencies>

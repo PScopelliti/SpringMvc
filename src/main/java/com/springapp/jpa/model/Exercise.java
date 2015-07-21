@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Class that model an exercise.
@@ -23,9 +25,13 @@ public class Exercise {
     @Column(name = "id")
     private Integer id;
 
+    @NotNull
+    @Size(min=5, max=16)
     @Column(name = "name")
     private String name;
 
+    @NotNull
+    @Size(min=5, max=16)
     @Column(name = "description")
     private String description;
 

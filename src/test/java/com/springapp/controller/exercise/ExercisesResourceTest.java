@@ -26,13 +26,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This class contains methods for verify that the Exercise controller manage requests/responses correctly.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ExerciseResourceTest {
+public class ExercisesResourceTest {
 
     @Mock
     private ExerciseRepository exerciseRepository;
 
     @InjectMocks
-    private ExerciseResourceBean sut;
+    private ExercisesResourceBean sut;
 
     private MockMvc mockMvc;
 
