@@ -10,6 +10,6 @@
 <body>
 <h1>Welcome to Spittr</h1>
 <a href="<c:url value="/exercises" />">Show exercises</a> |
-<a href="<c:url value="/exercise/add" />">Add new exercise</a>
+<a href="<c:url value="/exercise/register" />">Add new exercise</a>
 </body>
 </html>

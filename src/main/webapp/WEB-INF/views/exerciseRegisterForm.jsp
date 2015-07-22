@@ -11,7 +11,7 @@
 
 <form method="POST">
     Name: <input type="text" name="name"/><br/>
-    Description: <input type="email" name="description"/><br/>
+    Description: <input type="text" name="description"/><br/>
     <input type="submit" value="Register"/>
 </form>
 </body>

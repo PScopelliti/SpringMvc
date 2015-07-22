@@ -23,7 +23,7 @@ public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @NotNull
     @Size(min=5, max=16)
@@ -35,11 +35,11 @@ public class Exercise {
     @Column(name = "description")
     private String description;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Integer id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

@@ -23,10 +23,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 /**
- * This class contains methods for verify that the Exercise controller manage requests/responses correctly.
+ * This class contains methods for verify that the Exercises controller manage requests/responses correctly.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ExercisesResourceTest {
+public class ExercisesResourceBeanTest {
 
     @Mock
     private ExerciseRepository exerciseRepository;
