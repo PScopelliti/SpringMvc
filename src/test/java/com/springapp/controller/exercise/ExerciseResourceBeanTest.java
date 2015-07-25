@@ -10,11 +10,15 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -72,5 +76,30 @@ public class ExerciseResourceBeanTest {
 
         verify(exerciseRepository, times(1)).save(exercise);
     }
+
+    /**
+     * This test verify that the controller return the expected page
+     * for selected exercise.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void shouldReturnExerciseDetails() throws Exception {
+
+        final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
+
+        mockMvc = standaloneSetup(sut).build();
+
+        when(exerciseRepository.findOne(anyLong()))
+                .thenReturn(Optional.of(exercise));
+
+        mockMvc.perform(get("/exercise/12345"))
+                .andExpect(view().name("exerciseDetails"))
+                .andExpect(model().attributeExists("exercise"))
+                .andExpect(model().attribute("exercise", exercise));
+
+        verify(exerciseRepository, times(1)).findOne(12345L);
+    }
+
 
 }

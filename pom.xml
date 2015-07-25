@@ -23,6 +23,7 @@
         <slf4j.version>1.7.12</slf4j.version>
         <javax.version>1.0.0.GA</javax.version>
         <jstl.version>1.2</jstl.version>
+        <jackson.version>2.6.0</jackson.version>
     </properties>
 
     <dependencies>
@@ -141,6 +142,15 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Jackson library -->
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+
         <!-- This is for mocking the service -->
 
         <dependency>
@@ -151,6 +161,7 @@
         </dependency>
 
         <!-- Optional -->
+
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
