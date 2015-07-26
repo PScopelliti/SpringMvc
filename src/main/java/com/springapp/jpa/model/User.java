@@ -17,16 +17,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "username")
     private String username;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Integer id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

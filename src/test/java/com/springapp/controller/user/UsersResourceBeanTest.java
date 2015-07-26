@@ -40,6 +40,7 @@ public class UsersResourceBeanTest {
 
     @Before
     public void init() {
+        // Setup Spring test in standalone mode
         mockMvc = standaloneSetup(sut).build();
     }
 
@@ -78,7 +79,7 @@ public class UsersResourceBeanTest {
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].id").value(userList.get(0).getId()))
+                .andExpect(jsonPath("$[0].id").value(userList.get(0).getId().intValue()))
                 .andExpect(jsonPath("$[0].username").value(userList.get(0).getUsername()));
 
         verify(userRepository, times(1)).findAll();

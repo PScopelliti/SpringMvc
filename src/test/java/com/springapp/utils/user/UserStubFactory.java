@@ -17,12 +17,12 @@ public class UserStubFactory {
     public static final List<User> createStubbedUserList(final int numOfUser) {
         final List<User> list = new ArrayList<>();
         for (int index = 0; index < numOfUser; index++) {
-            list.add(createStubbedUser(index));
+            list.add(createStubbedUser(Long.valueOf(index)));
         }
         return list;
     }
 
-    public static final User createStubbedUser(final int userId) {
+    public static final User createStubbedUser(final Long userId) {
         final User user = new User();
         user.setId(userId);
         user.setUsername("some_username");

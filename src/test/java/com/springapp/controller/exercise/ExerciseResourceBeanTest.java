@@ -42,7 +42,7 @@ public class ExerciseResourceBeanTest {
 
     @Before
     public void init() {
-
+        // Setup Spring test in standalone mode
         mockMvc = standaloneSetup(sut).build();
 
     }
