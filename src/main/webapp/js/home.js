@@ -1,12 +1,24 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-    $.ajax({
-        type: 'GET',
-        url: '/exercises',
-        dataType: 'json',
-        success: function (data) {
-          console.log(data);
-        }
-    });
+    getExerciseAndFillTable('/exercises')
 
 });
+
+
+function getExerciseAndFillTable(url) {
+
+    $('#table').bootstrapTable({
+        url: url,
+        columns: [{
+            field: 'id',
+            title: 'Exercise ID'
+        }, {
+            field: 'name',
+            title: 'Exercise Name'
+        }, {
+            field: 'description',
+            title: 'Exercise Description'
+        }]
+    });
+
+}

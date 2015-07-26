@@ -3,6 +3,7 @@ package com.springapp.controller.exercise;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.repository.ExerciseRepository;
 import com.springapp.utils.exercise.ExerciseStubFactory;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -29,6 +30,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(MockitoJUnitRunner.class)
 public class ExerciseResourceBeanTest {
 
+    private static final Long ESERCISE_ID = 123L;
+
     @Mock
     private ExerciseRepository exerciseRepository;
 
@@ -36,6 +39,13 @@ public class ExerciseResourceBeanTest {
     private ExerciseResourceBean sut;
 
     private MockMvc mockMvc;
+
+    @Before
+    public void init() {
+
+        mockMvc = standaloneSetup(sut).build();
+
+    }
 
     /**
      * This test verify that the controller return the expected
@@ -45,8 +55,6 @@ public class ExerciseResourceBeanTest {
      */
     @Test
     public void shouldReturnRegistrationForm() throws Exception {
-
-        mockMvc = standaloneSetup(sut).build();
 
         mockMvc.perform(get("/exercise/register"))
                 .andExpect(view().name("exerciseRegisterForm"));
@@ -62,8 +70,6 @@ public class ExerciseResourceBeanTest {
     public void shouldReturnExerciseIdPage() throws Exception {
 
         final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
-
-        mockMvc = standaloneSetup(sut).build();
 
         when(exerciseRepository.save(exercise))
                 .thenReturn(exercise);
@@ -88,18 +94,14 @@ public class ExerciseResourceBeanTest {
 
         final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
 
-        mockMvc = standaloneSetup(sut).build();
-
         when(exerciseRepository.findOne(anyLong()))
                 .thenReturn(Optional.of(exercise));
 
-        mockMvc.perform(get("/exercise/12345"))
+        mockMvc.perform(get("/exercise/{id}", ESERCISE_ID))
                 .andExpect(view().name("exerciseDetails"))
                 .andExpect(model().attributeExists("exercise"))
                 .andExpect(model().attribute("exercise", exercise));
 
-        verify(exerciseRepository, times(1)).findOne(12345L);
+        verify(exerciseRepository, times(1)).findOne(ESERCISE_ID);
     }
-
-
 }

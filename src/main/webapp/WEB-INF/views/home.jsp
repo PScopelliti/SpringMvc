@@ -13,6 +13,8 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.css">
 
 </head>
 
@@ -44,14 +46,15 @@
 <div class="container">
 
     <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
+        <h1>Welcome to Exercises</h1>
 
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a
-            mostly barebones HTML document.</p>
+        <div class="row">
 
-        <h1>Welcome to Spittr</h1>
-        <a href="<c:url value="/exercises" />">Show exercises</a> |
-        <a href="<c:url value="/exercise/register" />">Add new exercise</a>
+            <div class="col-lg-6">
+                <table id="table"></table>
+            </div>
+            <div class="col-lg-6"></div>
+        </div>
     </div>
 
 </div>
@@ -63,6 +66,8 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="../../js/home.js"></script>
 </body>
 </html>

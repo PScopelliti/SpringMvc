@@ -27,11 +27,19 @@ public class ExerciseResourceBean implements ExerciseResource {
         this.exerciseRepository = exerciseRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String showRegistrationForm() {
         return "exerciseRegisterForm";
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String processRegistration(@Valid final Exercise exercise,
                                       final Errors errors) {
@@ -43,13 +51,17 @@ public class ExerciseResourceBean implements ExerciseResource {
         return "redirect:/exercise/" + exercise.getId();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String showExerciseDetails(@PathVariable final Long id,
                                       final Model model) {
 
         final Optional<Exercise> result = exerciseRepository.findOne(id);
 
-        if(result.isPresent()){
+        if (result.isPresent()) {
             model.addAttribute(result.get());
         }
 

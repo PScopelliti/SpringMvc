@@ -1,7 +1,7 @@
-package com.springapp.controller.exercise;
+package com.springapp.controller.user;
 
-import com.springapp.jpa.model.Exercise;
-import com.springapp.jpa.repository.ExerciseRepository;
+import com.springapp.jpa.model.User;
+import com.springapp.jpa.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
- * Implementation of {@link ExercisesResource}
+ * Implementation of {@link UsersResource}
  */
 @Controller
-@RequestMapping(value = "/exercises")
-public class ExercisesResourceBean implements ExercisesResource {
+@RequestMapping(value = "/users")
+public class UsersResourceBean implements UsersResource {
 
-    private final ExerciseRepository exerciseRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ExercisesResourceBean(final ExerciseRepository exerciseRepository) {
-        this.exerciseRepository = exerciseRepository;
+    public UsersResourceBean(final UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     /**
@@ -33,8 +33,7 @@ public class ExercisesResourceBean implements ExercisesResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Exercise> getExercises() {
-        return exerciseRepository.findAll();
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
-
 }
