@@ -17,10 +17,12 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -30,7 +32,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(MockitoJUnitRunner.class)
 public class ExerciseResourceBeanTest {
 
-    private static final Long ESERCISE_ID = 123L;
+    private static final Long EXERCISE_ID = 123L;
 
     @Mock
     private ExerciseRepository exerciseRepository;
@@ -97,11 +99,37 @@ public class ExerciseResourceBeanTest {
         when(exerciseRepository.findOne(anyLong()))
                 .thenReturn(Optional.of(exercise));
 
-        mockMvc.perform(get("/exercise/{id}", ESERCISE_ID))
+        mockMvc.perform(get("/exercise/{id}", EXERCISE_ID))
                 .andExpect(view().name("exerciseDetails"))
                 .andExpect(model().attributeExists("exercise"))
                 .andExpect(model().attribute("exercise", exercise));
 
-        verify(exerciseRepository, times(1)).findOne(ESERCISE_ID);
+        verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
+    }
+
+    /**
+     * This test verify that exercise is deleted correctly.
+     */
+    @Test
+    public void shouldRemoveOneExercise() {
+
+        sut.deleteExerciseById(EXERCISE_ID);
+
+        verify(exerciseRepository, times(1)).delete(EXERCISE_ID);
+    }
+
+    /**
+     * This test verify that controller return expected response to
+     * a delete request.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void shouldReturnCorrectResponse() throws Exception {
+
+        mockMvc.perform(delete("/exercise/{id}", EXERCISE_ID))
+                .andExpect(status().isOk());
+
+        verify(exerciseRepository, times(1)).delete(EXERCISE_ID);
     }
 }

@@ -10,9 +10,10 @@ import java.util.List;
 public interface UsersResource {
 
     /**
-     * This method returs a list of users.
+     * This method returns a list of users.
      *
      * @return
      */
     List<User> getUsers();
+
 }

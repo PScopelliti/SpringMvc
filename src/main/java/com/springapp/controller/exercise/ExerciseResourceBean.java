@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -31,7 +32,8 @@ public class ExerciseResourceBean implements ExerciseResource {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = "/register",
+            method = RequestMethod.GET)
     public String showRegistrationForm() {
         return "exerciseRegisterForm";
     }
@@ -40,7 +42,8 @@ public class ExerciseResourceBean implements ExerciseResource {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register",
+            method = RequestMethod.POST)
     public String processRegistration(@Valid final Exercise exercise,
                                       final Errors errors) {
         if (errors.hasErrors()) {
@@ -55,7 +58,8 @@ public class ExerciseResourceBean implements ExerciseResource {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}",
+            method = RequestMethod.GET)
     public String showExerciseDetails(@PathVariable final Long id,
                                       final Model model) {
 
@@ -66,5 +70,17 @@ public class ExerciseResourceBean implements ExerciseResource {
         }
 
         return "exerciseDetails";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/{id}",
+            method = RequestMethod.DELETE)
+    @ResponseBody
+    public void deleteExerciseById(@PathVariable
+                                   final Long id) {
+        exerciseRepository.delete(id);
     }
 }

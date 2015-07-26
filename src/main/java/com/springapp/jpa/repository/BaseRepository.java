@@ -17,7 +17,7 @@ public interface BaseRepository <T, ID extends Serializable> extends Repository<
 
     T save(T persisted);
 
-    void delete(T deleted);
+    void delete(Long id);
 
     Optional<T> findOne(Long id);
 

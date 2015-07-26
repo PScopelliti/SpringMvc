@@ -33,4 +33,11 @@ public interface ExerciseResource {
      * @return
      */
     String showExerciseDetails(Long id, Model model);
+
+    /**
+     * This method delete an exercise with specified id.
+     *
+     * @param id
+     */
+    void deleteExerciseById(Long id);
 }

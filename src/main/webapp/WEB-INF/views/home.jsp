@@ -51,9 +51,17 @@
         <div class="row">
 
             <div class="col-lg-6">
-                <table id="table"></table>
+                <div id="toolbar-exercise">
+                    <button id="button-exercise" class="btn btn-default">Remove</button>
+                </div>
+                <table id="exercise-table"></table>
             </div>
-            <div class="col-lg-6"></div>
+            <div class="col-lg-6">
+                <div id="toolbar-user">
+                    <button id="button-user" class="btn btn-default">Remove</button>
+                </div>
+                <table id="user-table"></table>
+            </div>
         </div>
     </div>
 
