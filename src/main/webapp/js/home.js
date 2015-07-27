@@ -57,8 +57,14 @@ function performClickRemoveUser() {
 
     button.click(function () {
         var selection = table.bootstrapTable('getSelections');
-        if (selection.length == 1) {
-            console.log('click user ' + selection);
+        if (selection.length == 1 && performDelete('/user', selection[0].id)) {
+            var ids = $.map(selection, function (row) {
+                return row.id;
+            });
+            table.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
         }
     });
 }
@@ -70,7 +76,7 @@ function performClickRemoveExercise() {
 
     button.click(function () {
         var selection = table.bootstrapTable('getSelections');
-        if (selection.length == 1 && performDelete('/exercise/', selection[0].id)) {
+        if (selection.length == 1 && performDelete('/exercise', selection[0].id)) {
             var ids = $.map(selection, function (row) {
                 return row.id;
             });
