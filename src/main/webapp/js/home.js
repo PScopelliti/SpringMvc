@@ -7,6 +7,9 @@ $(document).ready(function () {
     performClickRemoveUser();
     performClickRemoveExercise();
 
+    performClickAddUser();
+    performClickAddExercise();
+
 });
 
 function getUsersAndFillTable(url) {
@@ -20,7 +23,7 @@ function getUsersAndFillTable(url) {
             checkbox: true
         }, {
             field: 'id',
-            title: 'Exercise ID'
+            title: 'User ID'
         }, {
             field: 'username',
             title: 'Username'
@@ -52,7 +55,7 @@ function getExerciseAndFillTable(url) {
 
 function performClickRemoveUser() {
 
-    var button = $('#button-user');
+    var button = $('#button-remove-user');
     var table = $('#user-table');
 
     button.click(function () {
@@ -71,7 +74,7 @@ function performClickRemoveUser() {
 
 function performClickRemoveExercise() {
 
-    var button = $('#button-exercise');
+    var button = $('#button-remove-exercise');
     var table = $('#exercise-table');
 
     button.click(function () {
@@ -85,6 +88,22 @@ function performClickRemoveExercise() {
                 values: ids
             });
         }
+    });
+}
+
+function performClickAddUser(){
+    var button = $('#button-add-user');
+
+    button.click(function () {
+        $('#addExerciseModal').modal();
+    });
+}
+
+function performClickAddExercise(){
+    var button = $('#button-add-exercise');
+
+    button.click(function () {
+        $('#addUserModal').modal();
     });
 }
 

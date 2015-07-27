@@ -52,13 +52,15 @@
 
             <div class="col-lg-6">
                 <div id="toolbar-exercise">
-                    <button id="button-exercise" class="btn btn-default">Remove</button>
+                    <button id="button-remove-exercise" class="btn btn-default">Remove</button>
+                    <button id="button-add-exercise" class="btn btn-default">Add</button>
                 </div>
                 <table id="exercise-table"></table>
             </div>
             <div class="col-lg-6">
                 <div id="toolbar-user">
-                    <button id="button-user" class="btn btn-default">Remove</button>
+                    <button id="button-remove-user" class="btn btn-default">Remove</button>
+                    <button id="button-add-user" class="btn btn-default">Add</button>
                 </div>
                 <table id="user-table"></table>
             </div>
@@ -68,6 +70,58 @@
 </div>
 <!-- /.container -->
 
+
+<!-- Modal window -->
+
+<!-- Add Exercise Modal -->
+
+<div class="modal fade" id="addExerciseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addExerciseModalLabel">Add Exercise</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">Exercise name</label>
+                    <input type="text" class="form-control" id="recipient-exercise-name">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Exercise description</label>
+                    <input type="text" class="form-control" id="recipient-exercise-description">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add User Modal -->
+
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addUserModalLabel">Add User</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">Username</label>
+                    <input type="text" class="form-control" id="recipient-user-username">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Bootstrap core JavaScript
     ================================================== -->
