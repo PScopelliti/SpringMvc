@@ -25,6 +25,7 @@
         <jstl.version>1.2</jstl.version>
         <jackson.version>2.6.0</jackson.version>
         <json-path.version>2.0.0</json-path.version>
+        <h2.version>1.4.187</h2.version>
     </properties>
 
     <dependencies>
@@ -104,6 +105,14 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.connector.version}</version>
+        </dependency>
+
+        <!-- H2 database -->
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
         </dependency>
 
         <!-- Hibernate 4 -->

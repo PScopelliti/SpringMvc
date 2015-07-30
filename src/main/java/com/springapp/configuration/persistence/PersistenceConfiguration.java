@@ -5,9 +5,9 @@ import com.springapp.properties.database.DbConfigProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -28,28 +28,21 @@ import java.util.Properties;
         basePackages = {
         "com.springapp.jpa.repository"
 })
+@Import({MySqlDataSourceConfig.class, H2DataSourceConfig.class})
 public class PersistenceConfiguration {
 
     @Autowired
     private DbConfig dbConfig;
 
-    // Configuring Data Source
-    @Bean
-    public DataSource dataSource(){
-        final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl(dbConfig.getPropertyValue(DbConfigProperty.SPRING_DATASOURCE_URL));
-        dataSource.setUsername(dbConfig.getPropertyValue(DbConfigProperty.SPRING_DATASOURCE_USERNAME));
-        dataSource.setPassword(dbConfig.getPropertyValue(DbConfigProperty.SPRING_DATASOURCE_PASSWORD));
-        return dataSource;
-    }
+    @Autowired
+    private DataSource dataSource;
 
     // Configuring entity manager factory bean.
     // Produces a container-managed EntityManagerFactory.
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
+        em.setDataSource(dataSource);
         em.setPackagesToScan(new String[]{"com.springapp.jpa.model"}); // Scan the classes annotated with entity.
 
         // We use hibernate ok JPA implementation.
