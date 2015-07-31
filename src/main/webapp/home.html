@@ -1,50 +1,50 @@
 <!DOCTYPE html>
-
-<!-- define angular app -->
-<html ng-app="scotchApp">
-
+<html ng-app="customerApp">
 <head>
-    <!-- SCROLLS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
-
-    <!-- SPELLS -->
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
-    <script src="script.js"></script>
+    <title>Angular App</title>
 </head>
+<body>
 
-<!-- define angular controller -->
-<body ng-controller="mainController">
+<h1>Angular App</h1>
 
-<nav class="navbar navbar-default">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Angular Routing Example</a>
-        </div>
+<div ng-controller="customerController">
+    Search: <input type="text" ng-model="searchText"/>
+    {{ searchText }}
+    <br/>
 
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="#about"><i class="fa fa-shield"></i> About</a></li>
-            <li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
-        </ul>
-    </div>
-</nav>
-
-<div id="main">
-
-    <!-- angular templating -->
-    <!-- this is where content will be injected -->
-    <div ng-view></div>
-
+    <h3>Customer </h3>
+    <table>
+        <tr ng-repeat="cust in customers | filter:searchText ">
+            <td>{{cust.name}}</td>
+            <td>{{cust.total | currency}}</td>
+        </tr>
+    </table>
 </div>
 
-<footer class="text-center">
-    <p>View the tutorial on <a href="http://scotch.io/tutorials/javascript/single-page-apps-with-angularjs-routing-and-templating">Scotch.io</a></p>
+<script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js">
+</script>
+<script>
+    var app = angular.module('customerApp', []);
 
-    <p>View a tutorial on <a href="http://scotch.io/tutorials/javascript/animating-angularjs-apps-ngview">Animating Your Angular Single Page App</a></p>
-</footer>
+    app.controller('customerController', function ($scope, customerFactory) {
+        function init(){
+            customerFactory.getCustomers().success(function(data){
+                $scope.customers = data;
+            });
+        }
+        init();
+    });
+
+    app.factory('customerFactory', function ($http) {
+        var factory = {};
+        factory.getCustomers = function (){
+            return $http.get('/exercises.json');
+        };
+        return factory;
+    });
+
+</script>
 
 </body>
-
 </html>
