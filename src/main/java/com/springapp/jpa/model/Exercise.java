@@ -26,13 +26,13 @@ public class Exercise {
     private Long id;
 
     @NotNull
-    @Size(min=5, max=16)
-    @Column(name = "name")
+    @Size(min = 5, max = 16)
+    @Column(name = "name", length = 45, nullable = false)
     private String name;
 
     @NotNull
-    @Size(min=5, max=16)
-    @Column(name = "description")
+    @Size(min = 5, max = 16)
+    @Column(name = "description", length = 45, nullable = false)
     private String description;
 
     public Long getId() {

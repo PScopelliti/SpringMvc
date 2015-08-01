@@ -11,8 +11,8 @@ import javax.sql.DataSource;
 /**
  * Class that define Embedded configuration useful for dev and tests.
  */
-@Configuration
 @Profile("dev")
+@Configuration
 public class H2DataSourceConfig {
 
     // Configuring Data Source
@@ -20,8 +20,8 @@ public class H2DataSourceConfig {
     public DataSource dataSource(){
         return new EmbeddedDatabaseBuilder().
                 setType(EmbeddedDatabaseType.H2).
-//                addScript("db-schema.sql").
-//                addScript("db-test-data.sql").
+                addScript("schema.sql").
+                addScript("test-data.sql").
                 build();
     }
 }

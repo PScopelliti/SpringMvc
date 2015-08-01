@@ -57,7 +57,7 @@ public class UserResourceBeanTest {
     @Test
     public void shouldReturnCorrectResponse() throws Exception {
 
-        mockMvc.perform(delete("/exercise/{id}", USER_ID))
+        mockMvc.perform(delete("/user/{id}", USER_ID))
                 .andExpect(status().isOk());
 
         verify(userRepository, times(1)).delete(USER_ID);
