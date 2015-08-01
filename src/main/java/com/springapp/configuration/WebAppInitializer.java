@@ -22,4 +22,10 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new Class<?>[]{WebMvcConfig.class};
     }
 
+    // It's better to setup a profile in tomcat config
+//    @Override
+//    public void onStartup(final ServletContext servletContext) throws ServletException {
+//        super.onStartup(servletContext);
+//        servletContext.setInitParameter("spring.profiles.active", "production");
+//    }
 }
