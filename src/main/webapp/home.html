@@ -1,44 +1,93 @@
 <!DOCTYPE html>
-<html ng-app="customerApp">
+<html lang="en" ng-app="app">
 <head>
-    <title>Angular App</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="/assets/css/home.css" rel="stylesheet">
+
 </head>
+
 <body>
 
-<h1>Angular App</h1>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
 
-<div ng-controller="customerController">
-    Search: <input type="text" ng-model="searchText"/>
-    {{ searchText }}
-    <br/>
+<div class="container">
 
-    <h3>Customer </h3>
-    <table>
-        <tr ng-repeat="cust in customers | filter:searchText ">
-            <td>{{cust.name}}</td>
-            <td>{{cust.total | currency}}</td>
-        </tr>
-    </table>
+    <div ng-controller="exercisesController">
+        Search: <input type="text" ng-model="searchExercise"/>
+        {{ searchText }}
+        <br/>
+
+        <h3>Exercices </h3>
+        <table>
+            <tr ng-repeat="exercise in exercises | filter:searchExercise ">
+                <td>{{exercise.id}}</td>
+                <td>{{exercise.name}}</td>
+                <td>{{exercise.description}}</td>
+            </tr>
+        </table>
+    </div>
+
 </div>
+<!-- /.container -->
 
-<script type="text/javascript"
-        src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js">
-</script>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
 <script>
-    var app = angular.module('customerApp', []);
+    var app = angular.module('app', []);
 
-    app.controller('customerController', function ($scope, customerFactory) {
-        function init(){
-            customerFactory.getCustomers().success(function(data){
-                $scope.customers = data;
+    app.controller('exercisesController', function ($scope, exerciseFactory) {
+        function init() {
+            exerciseFactory.getExercises().success(function (data) {
+                $scope.exercises = data;
             });
         }
+
         init();
     });
 
-    app.factory('customerFactory', function ($http) {
+    app.factory('exerciseFactory', function ($http) {
         var factory = {};
-        factory.getCustomers = function (){
+        factory.getExercises = function () {
             return $http.get('/exercises.json');
         };
         return factory;
