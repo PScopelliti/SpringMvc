@@ -1,6 +1,7 @@
 package com.springapp.controller.user;
 
 import com.springapp.jpa.repository.UserRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -37,6 +39,10 @@ public class UserResourceBeanTest {
         mockMvc = standaloneSetup(sut).build();
     }
 
+    @After
+    public void after() {
+        verifyNoMoreInteractions(userRepository);
+    }
     /**
      * This test verify that user is deleted correctly.
      */

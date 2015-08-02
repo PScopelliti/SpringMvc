@@ -46,19 +46,54 @@
 
 <div class="container">
 
-    <div ng-controller="exercisesController">
-        Search: <input type="text" ng-model="searchExercise"/>
-        {{ searchText }}
+    <div class="starter-template">
+
+        <h1>Welcome to Exercises</h1>
+
         <br/>
 
-        <h3>Exercices </h3>
-        <table>
-            <tr ng-repeat="exercise in exercises | filter:searchExercise ">
-                <td>{{exercise.id}}</td>
-                <td>{{exercise.name}}</td>
-                <td>{{exercise.description}}</td>
-            </tr>
-        </table>
+        <div class="row">
+            <div class="col-lg-6">
+                <div ng-controller="exercisesController">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            Search: <input type="text" ng-model="searchExercise"/>
+                            {{ searchText }}
+                        </div>
+                        <div class="col-lg-6">
+                            <button type="button" class="btn btn-info" ng-click="addExercise()">Add Exercise</button>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <h3>Exercices </h3>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NAME</th>
+                            <th>DESCRIPTION</th>
+                        </tr>
+                        </thead>
+                        <tr ng-repeat="exercise in exercises | filter:searchExercise ">
+                            <td>{{exercise.id}}</td>
+                            <td>{{exercise.name}}</td>
+                            <td>{{exercise.description}}</td>
+                            <td>
+                                <button type="button" class="btn btn-warning" ng-click="edit(exercise)">Edit</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" ng-click="delete(exercise)">Delete</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-6">
+            </div>
+        </div>
     </div>
 
 </div>
@@ -70,30 +105,11 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
-<script>
-    var app = angular.module('app', []);
 
-    app.controller('exercisesController', function ($scope, exerciseFactory) {
-        function init() {
-            exerciseFactory.getExercises().success(function (data) {
-                $scope.exercises = data;
-            });
-        }
-
-        init();
-    });
-
-    app.factory('exerciseFactory', function ($http) {
-        var factory = {};
-        factory.getExercises = function () {
-            return $http.get('/exercises.json');
-        };
-        return factory;
-    });
-
-</script>
+<!-- ANGULAR COMPONENTS -->
+<script type="text/javascript" src="/app/app.module.js"></script>
+<script type="text/javascript" src="/app/home/homeController.js"></script>
 
 </body>
 </html>
