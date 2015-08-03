@@ -3,6 +3,7 @@ package com.springapp.controller.exercise;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.repository.ExerciseRepository;
 import com.springapp.utils.exercise.ExerciseStubFactory;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -42,6 +44,11 @@ public class ExercisesResourceBeanTest {
     public void init() {
         // Setup Spring test in standalone mode
         mockMvc = standaloneSetup(sut).build();
+    }
+
+    @After
+    public void after() {
+        verifyNoMoreInteractions(exerciseRepository);
     }
 
     /**

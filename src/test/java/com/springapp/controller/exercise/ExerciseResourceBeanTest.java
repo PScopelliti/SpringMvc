@@ -2,17 +2,22 @@ package com.springapp.controller.exercise;
 
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.repository.ExerciseRepository;
+import com.springapp.utils.IntegrationTestUtil;
 import com.springapp.utils.exercise.ExerciseStubFactory;
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -20,10 +25,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 /**
@@ -46,43 +50,82 @@ public class ExerciseResourceBeanTest {
     public void init() {
         // Setup Spring test in standalone mode
         mockMvc = standaloneSetup(sut).build();
+    }
 
+    @After
+    public void after() {
+        //verifyNoMoreInteractions(exerciseRepository);
     }
 
     /**
-     * This test verify that the controller return the expected
-     * registration form page.
-     *
-     * @throws Exception
+     * Test if the controller returns the expected result when is called
+     * for saving exercises.
      */
     @Test
-    public void shouldReturnRegistrationForm() throws Exception {
-
-        mockMvc.perform(get("/exercise/register"))
-                .andExpect(view().name("exerciseRegisterForm"));
-    }
-
-    /**
-     * This test verify that the controller return the expected
-     * user id page.
-     *
-     * @throws Exception
-     */
-    @Test
-    public void shouldReturnExerciseIdPage() throws Exception {
+    public void shouldAddNewExercise() {
 
         final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
 
-        when(exerciseRepository.save(exercise))
+        when(exerciseRepository.save(any(Exercise.class)))
+                .thenReturn(exercise);
+
+        final Exercise result = sut.processRegistration(exercise);
+
+        //Verify result
+        Assert.assertNotNull("Result is null", result);
+        Assert.assertEquals("Result is different than expected.", exercise, result);
+
+        // Verify mock
+        verify(exerciseRepository, times(1)).save(exercise);
+    }
+
+    /**
+     * Test if the register API returns the correct response.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void shouldAddNewExerciseResponse() throws Exception {
+
+        final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
+
+        when(exerciseRepository.save(any(Exercise.class)))
                 .thenReturn(exercise);
 
         mockMvc.perform(post("/exercise/register")
-                .param("name", "some_name")
-                .param("id", String.valueOf(exercise.getId()))
-                .param("description", "some_description"))
-                .andExpect(redirectedUrl("/exercise/" + exercise.getId()));
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(IntegrationTestUtil.convertObjectToJsonBytes(exercise)))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("id").value(exercise.getId().intValue()))
+                .andExpect(jsonPath("name").value(exercise.getName()))
+                .andExpect(jsonPath("description").value(exercise.getDescription()));
 
-        verify(exerciseRepository, times(1)).save(exercise);
+        // Verify mock
+        verify(exerciseRepository, times(1)).save((exercise));
+    }
+
+    /**
+     * Verify if the controller return the correct response when
+     * is called with an existing exercise id.
+     */
+    @Test
+    public void shouldReturnExerciseDetails() {
+
+        final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
+
+        when(exerciseRepository.findOne(anyLong()))
+                .thenReturn(Optional.of(exercise));
+
+        final Exercise result = sut.showExerciseDetails(EXERCISE_ID);
+
+        // Verify response
+        Assert.assertNotEquals("Result is null", result);
+        Assert.assertEquals("Result is different than expected", exercise, result);
+
+        // Verify mocks
+        verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
     }
 
     /**
@@ -92,7 +135,7 @@ public class ExerciseResourceBeanTest {
      * @throws Exception
      */
     @Test
-    public void shouldReturnExerciseDetails() throws Exception {
+    public void shouldReturnExerciseDetailsResponse() throws Exception {
 
         final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
 
@@ -100,9 +143,11 @@ public class ExerciseResourceBeanTest {
                 .thenReturn(Optional.of(exercise));
 
         mockMvc.perform(get("/exercise/{id}", EXERCISE_ID))
-                .andExpect(view().name("exerciseDetails"))
-                .andExpect(model().attributeExists("exercise"))
-                .andExpect(model().attribute("exercise", exercise));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("id").value(exercise.getId().intValue()))
+                .andExpect(jsonPath("name").value(exercise.getName()))
+                .andExpect(jsonPath("description").value(exercise.getDescription()));
 
         verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
     }

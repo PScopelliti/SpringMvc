@@ -27,12 +27,12 @@ public class Exercise {
 
     @NotNull
     @Size(min = 5, max = 16)
-    @Column(name = "name", length = 45, nullable = false)
+    @Column(name = "name", length = 45, nullable = true)
     private String name;
 
     @NotNull
     @Size(min = 5, max = 16)
-    @Column(name = "description", length = 45, nullable = false)
+    @Column(name = "description", length = 45, nullable = true)
     private String description;
 
     public Long getId() {
