@@ -29,4 +29,12 @@ public interface ExerciseResource {
      * @param id
      */
     void deleteExerciseById(Long id);
+
+    /**
+     * This method update an exercise.
+     *
+     * @param exercise
+     * @return
+     */
+    Exercise updateExercise(Exercise exercise);
 }

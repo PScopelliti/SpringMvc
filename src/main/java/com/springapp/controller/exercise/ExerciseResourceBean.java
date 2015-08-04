@@ -70,9 +70,19 @@ public class ExerciseResourceBean implements ExerciseResource {
     @RequestMapping(value = "/{id}",
             method = RequestMethod.DELETE)
     @ResponseBody
-    @ResponseStatus( HttpStatus.OK )
+    @ResponseStatus(HttpStatus.OK)
     public void deleteExerciseById(@PathVariable
                                    final Long id) {
         exerciseRepository.delete(id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(method = RequestMethod.PUT)
+    @ResponseBody
+    public Exercise updateExercise(@Valid @RequestBody final Exercise exercise) {
+        return exerciseRepository.;
     }
 }

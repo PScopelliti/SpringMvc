@@ -14,8 +14,11 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
+    <!--  angular-xeditable CSS -->
+    <link href="./assets/libs/angular-xeditable/css/xeditable.css" rel="stylesheet">
+
     <!-- Custom styles for this template -->
-    <link href="/assets/css/home.css" rel="stylesheet">
+    <link href="./assets/css/home.css" rel="stylesheet">
 
 </head>
 
@@ -54,44 +57,75 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <div ng-controller="exercisesController">
-
+                <div>
                     <div class="row">
                         <div class="col-lg-6">
                             Search: <input type="text" ng-model="searchExercise"/>
                             {{ searchText }}
                         </div>
                         <div class="col-lg-6">
-                            <button type="button" class="btn btn-info" ng-click="open()">Add Exercise</button>
                         </div>
                     </div>
 
                     <br/>
 
                     <h3>Exercices </h3>
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>DESCRIPTION</th>
-                        </tr>
-                        </thead>
-                        <tr ng-repeat="exercise in exercises | filter:searchExercise ">
-                            <td>{{exercise.id}}</td>
-                            <td>{{exercise.name}}</td>
-                            <td>{{exercise.description}}</td>
-                            <td>
-                                <button type="button" class="btn btn-warning" ng-click="edit(exercise)">Edit</button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger" ng-click="delete(exercise)">Delete</button>
-                            </td>
-                        </tr>
-                    </table>
+
+                    <div ng-controller="exercisesController">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>DESCRIPTION</th>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="exercise in exercises">
+                                <td>
+                                <span editable-text="exercise.id" e-name="id" e-form="rowform" e-required>
+                                  {{ exercise.id}}
+                                </span>
+                                </td>
+                                <td>
+                                <span editable-text="exercise.name" e-name="name" e-form="rowform" e-required>
+                                  {{ exercise.name }}
+                                </span>
+                                </td>
+                                <td>
+                                <span editable-text="exercise.description" e-name="description" e-form="rowform"
+                                      e-required>
+                                  {{ exercise.description }}
+                                </span>
+                                </td>
+                                <td style="white-space: nowrap">
+                                    <!-- form -->
+                                    <form editable-form name="rowform" onbeforesave="saveExercise($data, exercise.id)"
+                                          ng-show="rowform.$visible" class="form-buttons form-inline"
+                                          shown="inserted == exercise">
+                                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                                            Save
+                                        </button>
+                                        <button type="button" ng-disabled="rowform.$waiting"
+                                                ng-click="rowform.$cancel()"
+                                                class="btn btn-default">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                    <div class="buttons" ng-show="!rowform.$visible">
+                                        <button class="btn btn-primary" ng-click="rowform.$show()">Edit</button>
+                                        <button class="btn btn-danger" ng-click="removeExercise($index)">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <button class="btn btn-default" ng-click="addExercise()">Add Exercise</button>
+                    </div>
+
                 </div>
             </div>
             <div class="col-lg-6">
+
             </div>
         </div>
     </div>
@@ -99,23 +133,6 @@
 </div>
 <!-- /.container -->
 
-<script type="text/ng-template" id="myModalContent.html">
-    <div class="modal-header">
-        <h3 class="modal-title">I'm a modal!</h3>
-    </div>
-    <div class="modal-body">
-        <ul>
-            <li ng-repeat="item in items">
-                <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-            </li>
-        </ul>
-        Selected: <b>{{ selected.item }}</b>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="ok()">OK</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-    </div>
-</script>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -125,9 +142,12 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
 
 <!-- ANGULAR COMPONENTS -->
-<script type="text/javascript" src="/app/app.module.js"></script>
-<script type="text/javascript" src="/app/home/homeController.js"></script>
-<script type="text/javascript" src="/assets/libs/ui-bootstrap-tpls-0.13.2.min.js"></script>
+<script type="text/javascript" src="./app/app.module.js"></script>
+<script type="text/javascript" src="./app/components/home/homeController.js"></script>
+<script type="text/javascript" src="./app/shared/httpFactory.js"></script>
+
+<!-- angular-xeditable component -->
+<script type="text/javascript" src="./assets/libs/angular-xeditable/js/xeditable.min.js"></script>
 
 </body>
 </html>

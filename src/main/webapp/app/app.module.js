@@ -12,5 +12,10 @@ var app = angular.module('app', [
      * We could place these under every feature area,
      * but this is easier to maintain.
      */
-    'ui.bootstrap'
+    "xeditable"
 ]);
+
+
+app.run(function(editableOptions) {
+    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+});
