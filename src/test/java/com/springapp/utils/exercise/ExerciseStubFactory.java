@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ExerciseStubFactory {
 
-    private ExerciseStubFactory(){
+    private ExerciseStubFactory() {
 
     }
 
@@ -20,9 +20,9 @@ public class ExerciseStubFactory {
      * @param numberOfExercises
      * @return
      */
-    public static final List<Exercise> createStubExercisesList(final int numberOfExercises){
+    public static final List<Exercise> createStubExercisesList(final int numberOfExercises) {
         final List<Exercise> exercisesList = new ArrayList<>();
-        for(int index =0; index < numberOfExercises; index++){
+        for (int index = 0; index < numberOfExercises; index++) {
             final Exercise exercise = createStubExercise(new Long(index));
             exercisesList.add(exercise);
         }
@@ -35,10 +35,26 @@ public class ExerciseStubFactory {
      * @param exerciseId
      * @return
      */
-    public static final Exercise createStubExercise(final Long exerciseId){
+    public static final Exercise createStubExercise(final Long exerciseId) {
         final Exercise exercise = new Exercise();
         exercise.setDescription("some_description");
         exercise.setName("some_name");
+        exercise.setId(exerciseId);
+        return exercise;
+    }
+
+    /**
+     * This method generate a stubbed Exercise object with custom fields.
+     *
+     * @param exerciseId
+     * @return
+     */
+    public static final Exercise createStubExerciseWithCustomFields(final Long exerciseId,
+                                                                    final String description,
+                                                                    final String name) {
+        final Exercise exercise = new Exercise();
+        exercise.setDescription(description);
+        exercise.setName(name);
         exercise.setId(exerciseId);
         return exercise;
     }

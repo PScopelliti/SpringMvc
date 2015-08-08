@@ -80,9 +80,9 @@
                                 <th>DESCRIPTION</th>
                             </tr>
                             </thead>
-                            <tr ng-repeat="exercise in exercises">
+                            <tr ng-repeat="exercise in exercises | filter : searchExercise">
                                 <td>
-                                <span editable-text="exercise.id" e-name="id" e-form="rowform" e-required>
+                                <span e-name="id" e-form="rowform" e-required>
                                   {{ exercise.id}}
                                 </span>
                                 </td>
@@ -99,9 +99,9 @@
                                 </td>
                                 <td style="white-space: nowrap">
                                     <!-- form -->
-                                    <form editable-form name="rowform" onbeforesave="saveExercise($data, exercise.id)"
+                                    <form editable-form name="rowform" onbeforesave="saveExercise($data, exercise)"
                                           ng-show="rowform.$visible" class="form-buttons form-inline"
-                                          shown="inserted == exercise">
+                                          shown="inserted == exercise" oncancel="cancel()">
                                         <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
                                             Save
                                         </button>

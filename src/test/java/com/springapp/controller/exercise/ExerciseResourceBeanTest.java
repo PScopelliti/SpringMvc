@@ -21,10 +21,12 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,6 +39,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 public class ExerciseResourceBeanTest {
 
     private static final Long EXERCISE_ID = 123L;
+    private static final String SOME_NEW_DESCRIPTION = "some_new_description";
+    private static final String SOME_NEW_NAME = "some_new_name";
 
     @Mock
     private ExerciseRepository exerciseRepository;
@@ -54,7 +58,7 @@ public class ExerciseResourceBeanTest {
 
     @After
     public void after() {
-        //verifyNoMoreInteractions(exerciseRepository);
+        verifyNoMoreInteractions(exerciseRepository);
     }
 
     /**
@@ -176,5 +180,90 @@ public class ExerciseResourceBeanTest {
                 .andExpect(status().isOk());
 
         verify(exerciseRepository, times(1)).delete(EXERCISE_ID);
+    }
+
+    /**
+     * This test verify that the exercise is updated correctly.
+     */
+    @Test
+    public void shouldBeanUpdateExercise() {
+
+        final Exercise originalEx = ExerciseStubFactory.createStubExercise(EXERCISE_ID);
+        final Exercise updatedEx = ExerciseStubFactory
+                .createStubExerciseWithCustomFields(EXERCISE_ID,
+                        SOME_NEW_DESCRIPTION,
+                        SOME_NEW_NAME);
+
+        when(exerciseRepository.findOne(anyLong()))
+                .thenReturn(Optional.of(originalEx));
+
+        when(exerciseRepository.save(any(Exercise.class)))
+                .thenReturn(updatedEx);
+
+        final Exercise result = sut.updateExercise(updatedEx, EXERCISE_ID);
+
+        Assert.assertNotNull("Result is null", result);
+        Assert.assertEquals("Result is different than expected", result, updatedEx);
+
+        verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
+        verify(exerciseRepository, times(1)).save(updatedEx);
+
+    }
+
+    /**
+     * This test verify that if the Exercise with specified Id doesn't exist
+     * the returned value is null.
+     */
+    @Test
+    public void shouldReturnNullBecauseExerciseIdDoesNotExist() {
+
+        final Exercise updatedEx = ExerciseStubFactory
+                .createStubExerciseWithCustomFields(EXERCISE_ID,
+                        SOME_NEW_DESCRIPTION,
+                        SOME_NEW_NAME);
+
+        when(exerciseRepository.findOne(anyLong()))
+                .thenReturn(Optional.empty());
+
+        final Exercise result = sut.updateExercise(updatedEx, EXERCISE_ID);
+
+        Assert.assertNull("Result is not null", result);
+
+        verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
+    }
+
+    /**
+     * This test verify if the response to put is equals to expected.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void shouldReturnExpectedResponseToPut() throws Exception {
+
+        final Exercise originalEx = ExerciseStubFactory.createStubExercise(EXERCISE_ID);
+        final Exercise updatedEx = ExerciseStubFactory
+                .createStubExerciseWithCustomFields(EXERCISE_ID,
+                        SOME_NEW_DESCRIPTION,
+                        SOME_NEW_NAME);
+
+        when(exerciseRepository.findOne(anyLong()))
+                .thenReturn(Optional.of(originalEx));
+
+        when(exerciseRepository.save(any(Exercise.class)))
+                .thenReturn(updatedEx);
+
+        mockMvc.perform(put("/exercise/{id}", EXERCISE_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(IntegrationTestUtil.convertObjectToJsonBytes(updatedEx)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("id").value(updatedEx.getId().intValue()))
+                .andExpect(jsonPath("name").value(updatedEx.getName()))
+                .andExpect(jsonPath("description").value(updatedEx.getDescription()));
+
+        verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
+        verify(exerciseRepository, times(1)).save(updatedEx);
+
     }
 }

@@ -36,5 +36,5 @@ public interface ExerciseResource {
      * @param exercise
      * @return
      */
-    Exercise updateExercise(Exercise exercise);
+    Exercise updateExercise(Exercise exercise, Long id);
 }

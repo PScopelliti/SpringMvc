@@ -80,9 +80,22 @@ public class ExerciseResourceBean implements ExerciseResource {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Exercise updateExercise(@Valid @RequestBody final Exercise exercise) {
-        return exerciseRepository.;
+    public Exercise updateExercise(@Valid
+                                   @RequestBody
+                                   final Exercise exercise,
+                                   @PathVariable
+                                   final Long id) {
+        final Optional<Exercise> result = exerciseRepository.findOne(id);
+        if (result.isPresent()) {
+            final Exercise ex = result.get();
+            ex.setDescription(exercise.getDescription());
+            ex.setName(exercise.getName());
+            return exerciseRepository.save(ex);
+        }
+        return null;
     }
 }

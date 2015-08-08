@@ -22,7 +22,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 public class TestingJPAConnection {
 
     private static final String SOME_EXERCISE_NAME = "some_exercise_name";
-    private static final String SOME_EXERCISE_DESCRIPTION = "some_exercise_description";
+    private static final String SOME_EXERCISE_DESCRIPTION = "some_ex_description";
 
     @Autowired
     private ExerciseRepository sut;
