@@ -12,11 +12,11 @@ app.factory('httpFactory', function ($http) {
 
     factory.updateExercise = function (id, exercise) {
         return $http.put('./exercise/' + id, exercise);
-    }
+    };
 
     factory.addExercise = function (exercise) {
         return $http.post('./exercise/register', exercise);
-    }
+    };
 
     return factory;
 });

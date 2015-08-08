@@ -42,19 +42,21 @@ public class RestErrorHandler {
 
 
     private ErrorList processFieldErrors(final List<FieldError> fieldErrors) {
-        final ErrorList dto = new ErrorList();
+        final ErrorList errorList = new ErrorList();
 
         for (final FieldError fieldError : fieldErrors) {
             final String localizedErrorMessage = resolveLocalizedErrorMessage(fieldError);
-            dto.addFieldError(fieldError.getField(), localizedErrorMessage);
+            errorList.addFieldError(fieldError.getField(), localizedErrorMessage);
         }
 
-        return dto;
+        return errorList;
     }
 
     private String resolveLocalizedErrorMessage(final FieldError fieldError) {
         final Locale currentLocale = LocaleContextHolder.getLocale();
         String localizedErrorMessage = messageSource.getMessage(fieldError, currentLocale);
+
+        System.out.println("result " + messageSource.getMessage("exercise.description", null, currentLocale));
 
         //If the message was not found, return the most accurate field error code instead.
         //You can remove this check if you prefer to get the default error message.
