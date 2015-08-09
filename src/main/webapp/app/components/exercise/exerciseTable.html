@@ -1,0 +1,66 @@
+<div>
+    <div class="row">
+        <div class="col-lg-6">
+            Search: <input type="text" ng-model="searchExercise"/>
+            {{ searchText }}
+        </div>
+        <div class="col-lg-6">
+        </div>
+    </div>
+
+    <br/>
+
+    <h3>Exercices </h3>
+
+    <div ng-controller="exercisesController">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>DESCRIPTION</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="exercise in exercises | filter : searchExercise">
+                <td>
+                                <span e-name="id" e-form="rowform" e-required>
+                                  {{ exercise.id}}
+                                </span>
+                </td>
+                <td>
+                                <span editable-text="exercise.name" e-name="name" e-form="rowform" e-required>
+                                  {{ exercise.name }}
+                                </span>
+                </td>
+                <td>
+                                <span editable-text="exercise.description" e-name="description" e-form="rowform"
+                                      e-required>
+                                  {{ exercise.description }}
+                                </span>
+                </td>
+                <td style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="rowform" onbeforesave="saveExercise($data, exercise)"
+                          ng-show="rowform.$visible" class="form-buttons form-inline"
+                          shown="inserted == exercise" oncancel="cancel()">
+                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                            Save
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting"
+                                ng-click="rowform.$cancel()"
+                                class="btn btn-default">
+                            Cancel
+                        </button>
+                    </form>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <button class="btn btn-primary" ng-click="rowform.$show()">Edit</button>
+                        <button class="btn btn-danger" ng-click="removeExercise($index)">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <button class="btn btn-default" ng-click="addExercise()">Add Exercise</button>
+    </div>
+
+</div>
