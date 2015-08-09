@@ -18,5 +18,9 @@ app.factory('httpFactory', function ($http) {
         return $http.post('./exercise/register', exercise);
     };
 
+    factory.getUsers = function (){
+        return $http.get('./users.json');
+    };
+
     return factory;
 });

@@ -1,0 +1,59 @@
+<div>
+    <div class="row">
+        <div class="col-lg-6">
+            Search: <input type="text" ng-model="searchUser"/>
+            {{ searchText }}
+        </div>
+        <div class="col-lg-6">
+        </div>
+    </div>
+
+    <br/>
+
+    <h3>Users </h3>
+
+    <div ng-controller="usersController">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>USERNAME</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="user in users | filter : searchUser">
+                <td>
+                                <span e-name="id" e-form="userform" e-required>
+                                  {{ user.id}}
+                                </span>
+                </td>
+                <td>
+                                <span editable-text="user.username" e-name="username" e-form="userform" e-required>
+                                  {{ user.username }}
+                                </span>
+                </td>
+                <td style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="userform" onbeforesave="saveUser($data, user)"
+                          ng-show="userform.$visible" class="form-buttons form-inline"
+                          shown="inserted == user" oncancel="cancel()">
+                        <button type="submit" ng-disabled="userform.$waiting" class="btn btn-primary">
+                            Save
+                        </button>
+                        <button type="button" ng-disabled="userform.$waiting"
+                                ng-click="userform.$cancel()"
+                                class="btn btn-default">
+                            Cancel
+                        </button>
+                    </form>
+                    <div class="buttons" ng-show="!userform.$visible">
+                        <button class="btn btn-primary" ng-click="userform.$show()">Edit</button>
+                        <button class="btn btn-danger" ng-click="removeUser($index)">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <button class="btn btn-default" ng-click="addUser()">Add User</button>
+    </div>
+
+</div>

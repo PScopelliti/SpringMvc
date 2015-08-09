@@ -43,6 +43,7 @@ public class UserResourceBeanTest {
     public void after() {
         verifyNoMoreInteractions(userRepository);
     }
+
     /**
      * This test verify that user is deleted correctly.
      */

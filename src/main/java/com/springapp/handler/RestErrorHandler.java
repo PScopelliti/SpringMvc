@@ -1,5 +1,6 @@
 package com.springapp.handler;
 
+import com.springapp.exception.ExerciseNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -40,6 +41,13 @@ public class RestErrorHandler {
         return processFieldErrors(fieldErrors);
     }
 
+    @ResponseBody
+    @ExceptionHandler(ExerciseNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Error exerciseNotFound(final ExerciseNotFoundException ex){
+        final Long exerciseIg = ex.getExerciseId();
+        return new Error(null, null, null);
+    }
 
     private ErrorList processFieldErrors(final List<FieldError> fieldErrors) {
         final ErrorList dto = new ErrorList();

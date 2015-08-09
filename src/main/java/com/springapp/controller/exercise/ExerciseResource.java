@@ -16,7 +16,7 @@ public interface ExerciseResource {
     Exercise processRegistration(Exercise exercise);
 
     /**
-     * This method shows the exercise details.
+     * This method shows exercise details.
      *
      * @param id
      * @return

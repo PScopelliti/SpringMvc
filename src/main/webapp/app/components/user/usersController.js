@@ -1,8 +1,8 @@
-app.controller('exercisesController', function ($scope, httpFactory) {
+app.controller('usersController', function ($scope, httpFactory) {
     function init() {
-        httpFactory.getExercises()
+        httpFactory.getUsers()
             .success(function (data) {
-                $scope.exercises = data;
+                $scope.users = data;
             })
             .error(function (error) {
 
@@ -11,26 +11,26 @@ app.controller('exercisesController', function ($scope, httpFactory) {
 
     init();
 
-    $scope.saveExercise = function (data, exercise) {
+    $scope.saveUser = function (data, user) {
 
-        var form = this.exerciseform;
+        var form = this.userform;
 
-        // If the exercise is new
-        if (exercise.isNew) {
+        // If the user is new
+        if (user.isNew) {
             // Set false is new field, for nex requests.
-            exercise.isNew = false;
+            user.isNew = false;
 
-            return httpFactory.addExercise(data)
+            return httpFactory.addUser(data)
                 .success(function (response) {
-                    // setting exercise id
-                    exercise.id = response.id;
+                    // setting user id
+                    user.id = response.id;
                 })
                 .error(function (error) {
                     form.$setError('name', 'Sticazzi');
                 });
         }
-        // If we need to update a previous exercise
-        return httpFactory.updateExercise(exercise.id, data)
+        // If we need to update a previous user
+        return httpFactory.updateEUser(user.id, data)
             .success(function (data) {
                 console.log('success', data);
             })
@@ -41,11 +41,11 @@ app.controller('exercisesController', function ($scope, httpFactory) {
             });
     };
 
-    // remove exercise
-    $scope.removeExercise = function (index) {
-        var id = $scope.exercises[index].id;
-        $scope.exercises.splice(index, 1);
-        httpFactory.deleteExercise(id)
+    // remove user
+    $scope.removeUser = function (index) {
+        var id = $scope.users[index].id;
+        $scope.users.splice(index, 1);
+        httpFactory.deleteUser(id)
             .success(function (data) {
 
             })
@@ -54,23 +54,23 @@ app.controller('exercisesController', function ($scope, httpFactory) {
             });
     };
 
-    // add exercise
-    $scope.addExercise = function () {
+    // add user
+    $scope.addUser = function () {
         $scope.inserted = {
             id: undefined,
             name: '',
             description: '',
             isNew: true
         };
-        $scope.exercises.push($scope.inserted);
+        $scope.users.push($scope.inserted);
     };
 
     $scope.cancel = function () {
-        for (var i = $scope.exercises.length; i--;) {
-            var exercise = $scope.exercises[i];
+        for (var i = $scope.users.length; i--;) {
+            var user = $scope.users[i];
             // remove new
-            if (exercise.isNew) {
-                $scope.exercises.splice(i, 1);
+            if (user.isNew) {
+                $scope.users.splice(i, 1);
             }
         }
     };

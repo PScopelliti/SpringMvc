@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * This class model a User
@@ -19,6 +21,8 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @NotNull
+    @Size(min = 5, max = 20)
     @Column(name = "username", length = 45, nullable = true)
     private String username;
 

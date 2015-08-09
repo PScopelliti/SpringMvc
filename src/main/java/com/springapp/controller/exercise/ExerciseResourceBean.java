@@ -1,5 +1,6 @@
 package com.springapp.controller.exercise;
 
+import com.springapp.exception.ExerciseNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.repository.ExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,9 @@ public class ExerciseResourceBean implements ExerciseResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public Exercise processRegistration(@Valid @RequestBody final Exercise exercise) {
+    public Exercise processRegistration(@Valid
+                                        @RequestBody
+                                        final Exercise exercise) {
         return exerciseRepository.save(exercise);
     }
 
@@ -52,7 +55,8 @@ public class ExerciseResourceBean implements ExerciseResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Exercise showExerciseDetails(@PathVariable final Long id) {
+    public Exercise showExerciseDetails(@PathVariable
+                                        final Long id) {
 
         final Optional<Exercise> result = exerciseRepository.findOne(id);
 
@@ -96,6 +100,6 @@ public class ExerciseResourceBean implements ExerciseResource {
             ex.setName(exercise.getName());
             return exerciseRepository.save(ex);
         }
-        return null;
+        throw new ExerciseNotFoundException(id);
     }
 }
