@@ -3,13 +3,13 @@ package com.springapp.handler;
 /**
  * This class contains error field.
  */
-public class ErrorField {
+public class Error {
 
     private String field;
 
     private String message;
 
-    public ErrorField(final String field, final String message) {
+    public Error(final String field, final String message) {
         this.field = field;
         this.message = message;
     }

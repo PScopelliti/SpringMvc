@@ -8,22 +8,22 @@ import java.util.List;
  */
 public class ErrorList {
 
-    private List<ErrorField> errorFields = new ArrayList<>();
+    private List<Error> errors = new ArrayList<>();
 
     public ErrorList() {
 
     }
 
     public void addFieldError(final String path, final String message) {
-        ErrorField error = new ErrorField(path, message);
-        errorFields.add(error);
+        Error error = new Error(path, message);
+        errors.add(error);
     }
 
-    public List<ErrorField> getErrorFields() {
-        return errorFields;
+    public List<Error> getErrors() {
+        return errors;
     }
 
-    public void setErrorFields(final List<ErrorField> errorFields) {
-        this.errorFields = errorFields;
+    public void setErrors(final List<Error> errors) {
+        this.errors = errors;
     }
 }

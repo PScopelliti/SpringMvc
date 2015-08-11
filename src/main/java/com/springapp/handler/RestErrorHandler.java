@@ -45,8 +45,8 @@ public class RestErrorHandler {
     @ExceptionHandler(ExerciseNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Error exerciseNotFound(final ExerciseNotFoundException ex){
-        final Long exerciseIg = ex.getExerciseId();
-        return new Error(null, null, null);
+        final Long exerciseId = ex.getExerciseId();
+        return new Error("exercise", "Exercise " + exerciseId + " not found");
     }
 
     private ErrorList processFieldErrors(final List<FieldError> fieldErrors) {

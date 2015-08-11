@@ -1,6 +1,7 @@
 package com.springapp.controller.exercise;
 
 import com.springapp.jpa.model.Exercise;
+import org.springframework.http.ResponseEntity;
 
 /**
  * The aim of this resource is to interact with a Exercise object.
@@ -13,7 +14,7 @@ public interface ExerciseResource {
      * @param exercise
      * @return
      */
-    Exercise processRegistration(Exercise exercise);
+    ResponseEntity<Exercise> processRegistration(Exercise exercise);
 
     /**
      * This method shows exercise details.

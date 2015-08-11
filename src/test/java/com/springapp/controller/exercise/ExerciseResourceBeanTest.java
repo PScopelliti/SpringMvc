@@ -1,5 +1,6 @@
 package com.springapp.controller.exercise;
 
+import com.springapp.exception.ExerciseNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.repository.ExerciseRepository;
 import com.springapp.utils.IntegrationTestUtil;
@@ -12,8 +13,14 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Optional;
 
@@ -28,6 +35,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -42,6 +50,9 @@ public class ExerciseResourceBeanTest {
     private static final String SOME_NEW_DESCRIPTION = "some_new_description";
     private static final String SOME_NEW_NAME = "some_new_name";
 
+    private MockHttpServletRequest request;
+    private MockHttpSession session;
+
     @Mock
     private ExerciseRepository exerciseRepository;
 
@@ -53,7 +64,13 @@ public class ExerciseResourceBeanTest {
     @Before
     public void init() {
         // Setup Spring test in standalone mode
-        mockMvc = standaloneSetup(sut).build();
+        this.mockMvc = standaloneSetup(sut).build();
+
+        this.request = new MockHttpServletRequest();
+        this.session = new MockHttpSession();
+        this.request.setSession(session);
+
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
 
     @After
@@ -73,11 +90,12 @@ public class ExerciseResourceBeanTest {
         when(exerciseRepository.save(any(Exercise.class)))
                 .thenReturn(exercise);
 
-        final Exercise result = sut.processRegistration(exercise);
+        final ResponseEntity<Exercise> result = sut.processRegistration(exercise);
 
         //Verify result
         Assert.assertNotNull("Result is null", result);
-        Assert.assertEquals("Result is different than expected.", exercise, result);
+        Assert.assertEquals("Result status is different than expected.", HttpStatus.CREATED, result.getStatusCode());
+        Assert.assertEquals("Result body is different than expected.", exercise, result.getBody());
 
         // Verify mock
         verify(exerciseRepository, times(1)).save(exercise);
@@ -91,7 +109,7 @@ public class ExerciseResourceBeanTest {
     @Test
     public void shouldAddNewExerciseResponse() throws Exception {
 
-        final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
+        final Exercise exercise = ExerciseStubFactory.createStubExercise(EXERCISE_ID);
 
         when(exerciseRepository.save(any(Exercise.class)))
                 .thenReturn(exercise);
@@ -102,6 +120,7 @@ public class ExerciseResourceBeanTest {
                 .content(IntegrationTestUtil.convertObjectToJsonBytes(exercise)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(header().string("Location", "http://localhost/exercise/" + EXERCISE_ID))
                 .andExpect(jsonPath("id").value(exercise.getId().intValue()))
                 .andExpect(jsonPath("name").value(exercise.getName()))
                 .andExpect(jsonPath("description").value(exercise.getDescription()));
@@ -162,9 +181,15 @@ public class ExerciseResourceBeanTest {
     @Test
     public void shouldRemoveOneExercise() {
 
+        final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
+
+        when(exerciseRepository.findOne(anyLong()))
+                .thenReturn(Optional.of(exercise));
+
         sut.deleteExerciseById(EXERCISE_ID);
 
         verify(exerciseRepository, times(1)).delete(EXERCISE_ID);
+        verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
     }
 
     /**
@@ -176,10 +201,16 @@ public class ExerciseResourceBeanTest {
     @Test
     public void shouldReturnCorrectResponse() throws Exception {
 
+        final Exercise originalEx = ExerciseStubFactory.createStubExercise(EXERCISE_ID);
+
+        when(exerciseRepository.findOne(anyLong()))
+                .thenReturn(Optional.of(originalEx));
+
         mockMvc.perform(delete("/exercise/{id}", EXERCISE_ID))
                 .andExpect(status().isOk());
 
         verify(exerciseRepository, times(1)).delete(EXERCISE_ID);
+        verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
     }
 
     /**
@@ -225,11 +256,11 @@ public class ExerciseResourceBeanTest {
         when(exerciseRepository.findOne(anyLong()))
                 .thenReturn(Optional.empty());
 
-        final Exercise result = sut.updateExercise(updatedEx, EXERCISE_ID);
-
-        Assert.assertNull("Result is not null", result);
-
-        verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
+        try {
+            sut.updateExercise(updatedEx, EXERCISE_ID);
+        } catch (ExerciseNotFoundException ex) {
+            verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
+        }
     }
 
     /**
