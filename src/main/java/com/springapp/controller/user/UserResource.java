@@ -1,6 +1,7 @@
 package com.springapp.controller.user;
 
 import com.springapp.jpa.model.User;
+import org.springframework.http.ResponseEntity;
 
 /**
  * The aim of this resource is to interact with user resource
@@ -21,7 +22,7 @@ public interface UserResource {
      * @param user
      * @return
      */
-    User processRegistration(User user);
+    ResponseEntity<User> processRegistration(User user);
 
     /**
      * This method shows user details.

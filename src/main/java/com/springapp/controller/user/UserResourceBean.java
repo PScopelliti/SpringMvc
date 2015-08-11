@@ -1,10 +1,13 @@
 package com.springapp.controller.user;
 
+import com.springapp.exception.EntityNotFoundException;
 import com.springapp.jpa.model.User;
 import com.springapp.jpa.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.Optional;
 
 /**
@@ -40,6 +45,13 @@ public class UserResourceBean implements UserResource {
     @ResponseStatus(HttpStatus.OK)
     public void deleteUserById(@PathVariable
                                final Long id) {
+
+        final Optional<User> result = userRepository.findOne(id);
+
+        if (!result.isPresent()) {
+            throw new EntityNotFoundException(id);
+        }
+
         userRepository.delete(id);
     }
 
@@ -52,10 +64,24 @@ public class UserResourceBean implements UserResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public User processRegistration(@Valid
-                                    @RequestBody
-                                    final User user) {
-        return userRepository.save(user);
+    public ResponseEntity<User> processRegistration(@Valid
+                                                    @RequestBody
+                                                    final User user) {
+        final User savedUser = userRepository.save(user);
+
+        final HttpHeaders headers = new HttpHeaders();
+        final URI locationUri = ServletUriComponentsBuilder
+                .fromCurrentServletMapping().path("/user/")
+                .path(String.valueOf(savedUser.getId()))
+                .build()
+                .toUri();
+
+        headers.setLocation(locationUri);
+
+        final ResponseEntity<User> responseEntity =
+                new ResponseEntity<>(savedUser, headers, HttpStatus.CREATED);
+        return responseEntity;
+
     }
 
     /**
@@ -74,7 +100,7 @@ public class UserResourceBean implements UserResource {
             return result.get();
         }
 
-        return null;
+        throw new EntityNotFoundException(id);
     }
 
     /**
@@ -96,7 +122,7 @@ public class UserResourceBean implements UserResource {
             us.setUsername(user.getUsername());
             return userRepository.save(us);
         }
-        return null;
+        throw  new EntityNotFoundException(id);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.springapp.controller.exercise;
 
-import com.springapp.exception.ExerciseNotFoundException;
+import com.springapp.exception.EntityNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.repository.ExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +80,7 @@ public class ExerciseResourceBean implements ExerciseResource {
             return result.get();
         }
 
-        throw new ExerciseNotFoundException(id);
+        throw new EntityNotFoundException(id);
     }
 
     /**
@@ -96,7 +96,7 @@ public class ExerciseResourceBean implements ExerciseResource {
         final Optional<Exercise> result = exerciseRepository.findOne(id);
 
         if (!result.isPresent()) {
-            throw new ExerciseNotFoundException(id);
+            throw new EntityNotFoundException(id);
         }
 
         exerciseRepository.delete(id);
@@ -122,6 +122,6 @@ public class ExerciseResourceBean implements ExerciseResource {
             ex.setName(exercise.getName());
             return exerciseRepository.save(ex);
         }
-        throw new ExerciseNotFoundException(id);
+        throw new EntityNotFoundException(id);
     }
 }

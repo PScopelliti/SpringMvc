@@ -1,6 +1,6 @@
 package com.springapp.controller.exercise;
 
-import com.springapp.exception.ExerciseNotFoundException;
+import com.springapp.exception.EntityNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.repository.ExerciseRepository;
 import com.springapp.utils.IntegrationTestUtil;
@@ -258,7 +258,7 @@ public class ExerciseResourceBeanTest {
 
         try {
             sut.updateExercise(updatedEx, EXERCISE_ID);
-        } catch (ExerciseNotFoundException ex) {
+        } catch (EntityNotFoundException ex) {
             verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
         }
     }
