@@ -20,8 +20,8 @@ public class H2DataSourceConfig {
     public DataSource dataSource(){
         return new EmbeddedDatabaseBuilder().
                 setType(EmbeddedDatabaseType.H2).
-                addScript("db/schema.sql").
-                addScript("db/test-data.sql").
+                addScript("h2db/schema.sql").
+                addScript("h2db/test-data.sql").
                 build();
     }
 }
