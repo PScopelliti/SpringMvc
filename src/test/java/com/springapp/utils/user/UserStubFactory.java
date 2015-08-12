@@ -14,6 +14,12 @@ public class UserStubFactory {
 
     }
 
+    /**
+     * This method generate a List of users
+     *
+     * @param numOfUser
+     * @return
+     */
     public static final List<User> createStubbedUserList(final int numOfUser) {
         final List<User> list = new ArrayList<>();
         for (int index = 0; index < numOfUser; index++) {
@@ -22,10 +28,31 @@ public class UserStubFactory {
         return list;
     }
 
+    /**
+     * This method generate a stubbed User object
+     *
+     * @param userId
+     * @return
+     */
     public static final User createStubbedUser(final Long userId) {
         final User user = new User();
         user.setId(userId);
         user.setUsername("some_username");
+        return user;
+    }
+
+    /**
+     * This method generate a stubbed User object with custom fields.
+     *
+     * @param userId
+     * @param username
+     * @return
+     */
+    public static final User createStubUserWithCustomFields(final Long userId,
+                                                            final String username) {
+        final User user = new User();
+        user.setUsername(username);
+        user.setId(userId);
         return user;
     }
 }

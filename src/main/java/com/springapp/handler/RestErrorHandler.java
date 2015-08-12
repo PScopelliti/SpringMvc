@@ -50,14 +50,14 @@ public class RestErrorHandler {
     }
 
     private ErrorList processFieldErrors(final List<FieldError> fieldErrors) {
-        final ErrorList dto = new ErrorList();
+        final ErrorList errorList = new ErrorList();
 
         for (final FieldError fieldError : fieldErrors) {
             final String localizedErrorMessage = resolveLocalizedErrorMessage(fieldError);
-            dto.addFieldError(fieldError.getField(), localizedErrorMessage);
+            errorList.addFieldError(fieldError.getField(), localizedErrorMessage);
         }
 
-        return dto;
+        return errorList;
     }
 
     private String resolveLocalizedErrorMessage(final FieldError fieldError) {

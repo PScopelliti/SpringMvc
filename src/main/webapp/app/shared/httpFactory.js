@@ -18,8 +18,16 @@ app.factory('httpFactory', function ($http) {
         return $http.post('./exercise/register', exercise);
     };
 
-    factory.getUsers = function (){
+    factory.getUsers = function () {
         return $http.get('./users.json');
+    };
+
+    factory.updateUser = function (id, user) {
+        return $http.put('./user/' + id, user);
+    };
+
+    factory.addUser = function (user) {
+        return $http.post('./user/register', user);
     };
 
     return factory;

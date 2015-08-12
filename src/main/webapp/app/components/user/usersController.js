@@ -17,26 +17,28 @@ app.controller('usersController', function ($scope, httpFactory) {
 
         // If the user is new
         if (user.isNew) {
-            // Set false is new field, for nex requests.
-            user.isNew = false;
 
             return httpFactory.addUser(data)
                 .success(function (response) {
                     // setting user id
                     user.id = response.id;
+                    // Set false is new field, for nex requests.
+                    user.isNew = false;
                 })
                 .error(function (error) {
-                    form.$setError('name', 'Sticazzi');
+                    for(var i = 0; i < error.errors.length; i++){
+                        form.$setError(error.errors[i].field, error.errors[i].message);
+                    }
                 });
         }
         // If we need to update a previous user
-        return httpFactory.updateEUser(user.id, data)
+        return httpFactory.updateUser(user.id, data)
             .success(function (data) {
                 console.log('success', data);
             })
             .error(function (error) {
-                for(var i = 0; i < error.errorFields.length; i++){
-                    form.$setError(error.errorFields[i].field, error.errorFields[i].message);
+                for(var i = 0; i < error.errors.length; i++){
+                    form.$setError(error.errors[i].field, error.errors[i].message);
                 }
             });
     };
@@ -58,8 +60,7 @@ app.controller('usersController', function ($scope, httpFactory) {
     $scope.addUser = function () {
         $scope.inserted = {
             id: undefined,
-            name: '',
-            description: '',
+            username: '',
             isNew: true
         };
         $scope.users.push($scope.inserted);

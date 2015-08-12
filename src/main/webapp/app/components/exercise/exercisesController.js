@@ -17,16 +17,18 @@ app.controller('exercisesController', function ($scope, httpFactory) {
 
         // If the exercise is new
         if (exercise.isNew) {
-            // Set false is new field, for nex requests.
-            exercise.isNew = false;
 
             return httpFactory.addExercise(data)
                 .success(function (response) {
                     // setting exercise id
                     exercise.id = response.id;
+                    // Set false is new field, for nex requests.
+                    exercise.isNew = false;
                 })
                 .error(function (error) {
-                    form.$setError('name', 'Sticazzi');
+                    for(var i = 0; i < error.errors.length; i++){
+                        form.$setError(error.errors[i].field, error.errors[i].message);
+                    }
                 });
         }
         // If we need to update a previous exercise
@@ -35,8 +37,8 @@ app.controller('exercisesController', function ($scope, httpFactory) {
                 console.log('success', data);
             })
             .error(function (error) {
-                for(var i = 0; i < error.errorFields.length; i++){
-                    form.$setError(error.errorFields[i].field, error.errorFields[i].message);
+                for(var i = 0; i < error.errors.length; i++){
+                    form.$setError(error.errors[i].field, error.errors[i].message);
                 }
             });
     };

@@ -1,5 +1,8 @@
 package com.springapp.jpa.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +29,7 @@ public class User implements EntityId {
     @Column(name = "username", length = 45, nullable = true)
     private String username;
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -40,5 +44,15 @@ public class User implements EntityId {
 
     public void setUsername(final String username) {
         this.username = username;
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        return EqualsBuilder.reflectionEquals(this, that);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 }
