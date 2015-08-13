@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Implementation of {@link UsersResource}
@@ -33,7 +33,7 @@ public class UsersResourceBean implements UsersResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<User> getUsers() {
+    public Collection<User> getUsers() {
         return userRepository.findAll();
     }
 }

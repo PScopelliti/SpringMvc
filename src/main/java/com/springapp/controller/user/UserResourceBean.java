@@ -1,7 +1,9 @@
 package com.springapp.controller.user;
 
 import com.springapp.exception.EntityNotFoundException;
+import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
+import com.springapp.jpa.repository.ExerciseRepository;
 import com.springapp.jpa.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -29,10 +32,13 @@ import java.util.Optional;
 public class UserResourceBean implements UserResource {
 
     private final UserRepository userRepository;
+    private final ExerciseRepository exerciseRepository;
 
     @Autowired
-    public UserResourceBean(final UserRepository userRepository) {
+    public UserResourceBean(final UserRepository userRepository,
+                            final ExerciseRepository exerciseRepository) {
         this.userRepository = userRepository;
+        this.exerciseRepository = exerciseRepository;
     }
 
     /**
@@ -122,7 +128,55 @@ public class UserResourceBean implements UserResource {
             us.setUsername(user.getUsername());
             return userRepository.save(us);
         }
-        throw  new EntityNotFoundException(id);
+        throw new EntityNotFoundException(id);
+    }
+
+    /**
+     * {@inheritDoc}
+     * TODO:  WRITE UNIT TEST
+     */
+    @Override
+    @RequestMapping(value = "/{id}/exercises",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Collection<Exercise> getExercisesForUser(@PathVariable
+                                                    final Long id) {
+        final Optional<User> result = userRepository.findOne(id);
+        // Check if user exists
+        if (result.isPresent()) {
+            return userRepository.getExercisesPerUser(id);
+        }
+        throw new EntityNotFoundException(id);
+    }
+
+    /**
+     * {@inheritDoc}
+     * TODO:  WRITE UNIT TEST
+     */
+    @Override
+    @RequestMapping(value = "/{userId}/exercise/{exerciseId}",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void setExerciseToUser(@PathVariable
+                                  final Long userId,
+                                  @PathVariable
+                                  final Long exerciseId) {
+
+        final Optional<User> resultUser = userRepository.findOne(userId);
+        // Check if user exists
+        if (!resultUser.isPresent()) {
+            throw new EntityNotFoundException(userId);
+        }
+
+        final Optional<Exercise> resultExercise = exerciseRepository.findOne(exerciseId);
+        // Check if exercise exists
+        if (!resultExercise.isPresent()) {
+            throw new EntityNotFoundException(userId);
+        }
+
+
     }
 
 }

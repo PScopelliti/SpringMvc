@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.times;
@@ -62,7 +63,7 @@ public class UsersResourceBeanTest {
 
         when(userRepository.findAll()).thenReturn(userList);
 
-        final List<User> result = sut.getUsers();
+        final List<User> result = new ArrayList<>(sut.getUsers());
 
         Assert.assertNotNull("Result is null", result);
         Assert.assertEquals("Result contents is different than expected.", userList, result);

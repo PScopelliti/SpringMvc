@@ -1,7 +1,10 @@
 package com.springapp.controller.user;
 
+import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
 import org.springframework.http.ResponseEntity;
+
+import java.util.Collection;
 
 /**
  * The aim of this resource is to interact with user resource
@@ -39,5 +42,21 @@ public interface UserResource {
      * @return
      */
     User updateUser(User user, Long id);
+
+    /**
+     * This method return a list of exercises for a specified user
+     *
+     * @param id
+     * @return
+     */
+    Collection<Exercise> getExercisesForUser(Long id);
+
+    /**
+     * This method assign an exercise to a specified user.
+     *
+     * @param userId
+     * @param exerciseId
+     */
+    void setExerciseToUser(Long userId, Long exerciseId);
 
 }

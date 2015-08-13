@@ -1,11 +1,13 @@
 package com.springapp.jpa.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,7 +40,7 @@ public class Exercise implements EntityId {
     @Column(name = "description", length = 45, nullable = true)
     private String description;
 
-    @ManyToMany(mappedBy = "exercises")
+    @ManyToMany(mappedBy = "exercises", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
 
     public Long getId() {
@@ -69,6 +71,7 @@ public class Exercise implements EntityId {
         this.users = users;
     }
 
+    @JsonIgnore
     public Set<User> getUsers() {
         return this.users;
     }

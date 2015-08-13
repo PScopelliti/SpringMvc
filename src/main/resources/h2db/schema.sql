@@ -14,6 +14,7 @@ CREATE TABLE user (
 CREATE TABLE user_exercise (
   user_id     INT NOT NULL,
   exercise_id INT NOT NULL,
-  PRIMARY KEY (user_id, exercise_id)
-  
+  PRIMARY KEY (user_id, exercise_id),
+  CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES user(user_id),
+  CONSTRAINT fk_exercise FOREIGN KEY (exercise_id) REFERENCES exercise(exercise_id)
 )

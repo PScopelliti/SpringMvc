@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Implementation of {@link ExercisesResource}
@@ -33,7 +33,7 @@ public class ExercisesResourceBean implements ExercisesResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Exercise> getExercises() {
+    public Collection<Exercise> getExercises() {
         return exerciseRepository.findAll();
     }
 

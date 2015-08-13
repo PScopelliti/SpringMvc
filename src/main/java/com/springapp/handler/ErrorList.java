@@ -1,14 +1,14 @@
 package com.springapp.handler;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * This class contains a list of error field.
  */
 public class ErrorList {
 
-    private List<Error> errors = new ArrayList<>();
+    private Collection<Error> errors = new ArrayList<>();
 
     public ErrorList() {
 
@@ -19,11 +19,11 @@ public class ErrorList {
         errors.add(error);
     }
 
-    public List<Error> getErrors() {
+    public Collection<Error> getErrors() {
         return errors;
     }
 
-    public void setErrors(final List<Error> errors) {
+    public void setErrors(final Collection<Error> errors) {
         this.errors = errors;
     }
 }

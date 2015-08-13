@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.times;
@@ -64,7 +65,7 @@ public class ExercisesResourceBeanTest {
         when(exerciseRepository.findAll()).thenReturn(expectedExercises);
 
         // Run fixture
-        final List<Exercise> result = sut.getExercises();
+        final List<Exercise> result =   new ArrayList<>(sut.getExercises());
 
         Assert.assertNotNull("Result is null.", result);
         Assert.assertEquals("Size is different than expected.", expectedExercises.size(), result.size());

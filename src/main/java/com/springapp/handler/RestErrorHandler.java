@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Locale;
 
 /**
@@ -36,7 +36,7 @@ public class RestErrorHandler {
     public ErrorList processValidationError(final MethodArgumentNotValidException ex) {
 
         final BindingResult result = ex.getBindingResult();
-        final List<FieldError> fieldErrors = result.getFieldErrors();
+        final Collection<FieldError> fieldErrors = result.getFieldErrors();
 
         return processFieldErrors(fieldErrors);
     }
@@ -49,7 +49,7 @@ public class RestErrorHandler {
         return new Error("exercise", "Exercise " + entityId + " not found");
     }
 
-    private ErrorList processFieldErrors(final List<FieldError> fieldErrors) {
+    private ErrorList processFieldErrors(final Collection<FieldError> fieldErrors) {
         final ErrorList errorList = new ErrorList();
 
         for (final FieldError fieldError : fieldErrors) {

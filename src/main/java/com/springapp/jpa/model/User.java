@@ -1,11 +1,13 @@
 package com.springapp.jpa.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +37,7 @@ public class User implements EntityId {
     @Column(name = "username", length = 45, nullable = true)
     private String username;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinTable(name = "user_exercise",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "exercise_id")})
@@ -62,6 +64,7 @@ public class User implements EntityId {
         this.exercises = exercises;
     }
 
+    @JsonIgnore
     public Set<Exercise> getExercises() {
         return this.exercises;
     }
