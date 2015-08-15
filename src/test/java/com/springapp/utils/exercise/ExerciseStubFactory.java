@@ -3,7 +3,7 @@ package com.springapp.utils.exercise;
 import com.springapp.jpa.model.Exercise;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * This class creates stub exercise object for tests.
@@ -20,8 +20,8 @@ public class ExerciseStubFactory {
      * @param numberOfExercises
      * @return
      */
-    public static final List<Exercise> createStubExercisesList(final int numberOfExercises) {
-        final List<Exercise> exercisesList = new ArrayList<>();
+    public static final Collection<Exercise> createStubExercisesList(final int numberOfExercises) {
+        final Collection<Exercise> exercisesList = new ArrayList<>();
         for (int index = 0; index < numberOfExercises; index++) {
             final Exercise exercise = createStubExercise(new Long(index));
             exercisesList.add(exercise);

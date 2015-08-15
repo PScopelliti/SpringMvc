@@ -1,9 +1,11 @@
 package com.springapp.controller.user;
 
 import com.springapp.exception.EntityNotFoundException;
+import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
 import com.springapp.jpa.repository.UserRepository;
 import com.springapp.utils.IntegrationTestUtil;
+import com.springapp.utils.exercise.ExerciseStubFactory;
 import com.springapp.utils.user.UserStubFactory;
 import org.junit.After;
 import org.junit.Assert;
@@ -17,7 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Matchers.any;
@@ -43,6 +49,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 public class UserResourceBeanTest {
 
     private static final Long USER_ID = 123L;
+    private static final Long EXERCISE_ID = 12L;
     private static final String SOME_NEW_USERNAME = "some_new_username";
 
     @Mock
@@ -277,4 +284,62 @@ public class UserResourceBeanTest {
         verify(userRepository, times(1)).findOne(USER_ID);
     }
 
+    /**
+     * This test verify that the expected list of exercise per user
+     * is returned.
+     */
+    @Test
+    public void shouldReturnListOfExercisesPerUser() {
+
+        final User originalUser = UserStubFactory.createStubbedUser(USER_ID);
+        final Collection<Exercise> exercises = ExerciseStubFactory.createStubExercisesList(3);
+
+        when(userRepository.findOne(anyLong()))
+                .thenReturn(Optional.of(originalUser));
+
+        when(userRepository.getExercisesPerUser(anyLong()))
+                .thenReturn(exercises);
+
+        Collection<Exercise> result = sut.getExercisesPerUser(USER_ID);
+
+        //Verify result
+        Assert.assertNotNull("Result is null.", result);
+        Assert.assertTrue("Result is empty.", !CollectionUtils.isEmpty(result));
+        Assert.assertEquals("Result is different than expected.", exercises, result);
+
+        // Verify mocks behaviour
+        verify(userRepository, times(1)).findOne(USER_ID);
+        verify(userRepository, times(1)).getExercisesPerUser(USER_ID);
+    }
+
+    /**
+     * This test verify that the controller returns the expected response
+     * when we want get all exercises per user.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void shouldReturnListOfJsonExercises() throws Exception {
+
+
+        final User originalUser = UserStubFactory.createStubbedUser(USER_ID);
+        final List<Exercise> exercises = new ArrayList<>(ExerciseStubFactory.createStubExercisesList(3));
+
+        when(userRepository.findOne(anyLong()))
+                .thenReturn(Optional.of(originalUser));
+
+        when(userRepository.getExercisesPerUser(anyLong()))
+                .thenReturn(exercises);
+
+        mockMvc.perform(get("/user/{userId}/exercises", USER_ID, EXERCISE_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].id").value(exercises.get(0).getId().intValue()))
+                .andExpect(jsonPath("$[0].description").value(exercises.get(0).getDescription()));
+
+        // Verify mocks behaviour
+        verify(userRepository, times(1)).findOne(USER_ID);
+        verify(userRepository, times(1)).getExercisesPerUser(USER_ID);
+
+    }
 }

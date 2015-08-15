@@ -60,7 +60,7 @@ public class ExercisesResourceBeanTest {
     @Test
     public void testExercisesPage() throws Exception {
 
-        final List<Exercise> expectedExercises = ExerciseStubFactory.createStubExercisesList(5);
+        final List<Exercise> expectedExercises = new ArrayList<>(ExerciseStubFactory.createStubExercisesList(5));
 
         when(exerciseRepository.findAll()).thenReturn(expectedExercises);
 
@@ -83,7 +83,7 @@ public class ExercisesResourceBeanTest {
     @Test
     public void shouldPerformGetCorrectly() throws Exception {
 
-        final List<Exercise> expectedExercises = ExerciseStubFactory.createStubExercisesList(1);
+        final List<Exercise> expectedExercises = new ArrayList<>(ExerciseStubFactory.createStubExercisesList(1));
 
         when(exerciseRepository.findAll()).thenReturn(expectedExercises);
 

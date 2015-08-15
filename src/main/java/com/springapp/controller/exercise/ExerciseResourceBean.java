@@ -80,7 +80,7 @@ public class ExerciseResourceBean implements ExerciseResource {
             return result.get();
         }
 
-        throw new EntityNotFoundException(id);
+        throw new EntityNotFoundException(id, Exercise.class.getSimpleName());
     }
 
     /**
@@ -96,7 +96,7 @@ public class ExerciseResourceBean implements ExerciseResource {
         final Optional<Exercise> result = exerciseRepository.findOne(id);
 
         if (!result.isPresent()) {
-            throw new EntityNotFoundException(id);
+            throw new EntityNotFoundException(id, Exercise.class.getSimpleName());
         }
 
         exerciseRepository.delete(id);
@@ -122,6 +122,6 @@ public class ExerciseResourceBean implements ExerciseResource {
             ex.setName(exercise.getName());
             return exerciseRepository.save(ex);
         }
-        throw new EntityNotFoundException(id);
+        throw new EntityNotFoundException(id, Exercise.class.getSimpleName());
     }
 }

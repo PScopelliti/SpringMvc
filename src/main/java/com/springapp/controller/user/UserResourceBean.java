@@ -55,7 +55,7 @@ public class UserResourceBean implements UserResource {
         final Optional<User> result = userRepository.findOne(id);
 
         if (!result.isPresent()) {
-            throw new EntityNotFoundException(id);
+            throw new EntityNotFoundException(id, User.class.getSimpleName());
         }
 
         userRepository.delete(id);
@@ -106,7 +106,7 @@ public class UserResourceBean implements UserResource {
             return result.get();
         }
 
-        throw new EntityNotFoundException(id);
+        throw new EntityNotFoundException(id, User.class.getSimpleName());
     }
 
     /**
@@ -128,26 +128,25 @@ public class UserResourceBean implements UserResource {
             us.setUsername(user.getUsername());
             return userRepository.save(us);
         }
-        throw new EntityNotFoundException(id);
+        throw new EntityNotFoundException(id, User.class.getSimpleName());
     }
 
     /**
      * {@inheritDoc}
-     * TODO:  WRITE UNIT TEST
      */
     @Override
     @RequestMapping(value = "/{id}/exercises",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Collection<Exercise> getExercisesForUser(@PathVariable
+    public Collection<Exercise> getExercisesPerUser(@PathVariable
                                                     final Long id) {
         final Optional<User> result = userRepository.findOne(id);
         // Check if user exists
         if (result.isPresent()) {
             return userRepository.getExercisesPerUser(id);
         }
-        throw new EntityNotFoundException(id);
+        throw new EntityNotFoundException(id, User.class.getSimpleName());
     }
 
     /**
@@ -159,21 +158,21 @@ public class UserResourceBean implements UserResource {
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public void setExerciseToUser(@PathVariable
-                                  final Long userId,
-                                  @PathVariable
-                                  final Long exerciseId) {
+    public void setExercisePerUser(@PathVariable
+                                   final Long userId,
+                                   @PathVariable
+                                   final Long exerciseId) {
 
         final Optional<User> resultUser = userRepository.findOne(userId);
         // Check if user exists
         if (!resultUser.isPresent()) {
-            throw new EntityNotFoundException(userId);
+            throw new EntityNotFoundException(userId, User.class.getSimpleName());
         }
 
         final Optional<Exercise> resultExercise = exerciseRepository.findOne(exerciseId);
         // Check if exercise exists
         if (!resultExercise.isPresent()) {
-            throw new EntityNotFoundException(userId);
+            throw new EntityNotFoundException(userId, Exercise.class.getSimpleName());
         }
 
 

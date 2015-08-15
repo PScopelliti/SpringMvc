@@ -1,6 +1,7 @@
 package com.springapp.handler;
 
 import com.springapp.exception.EntityNotFoundException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -44,9 +45,10 @@ public class RestErrorHandler {
     @ResponseBody
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Error entityNotFound(final EntityNotFoundException ex){
+    public Error entityNotFound(final EntityNotFoundException ex) {
         final Long entityId = ex.getId();
-        return new Error("exercise", "Exercise " + entityId + " not found");
+        final String entityName = ex.getEntityName();
+        return new Error(StringUtils.lowerCase(entityName), entityName + " " + entityId + " not found");
     }
 
     private ErrorList processFieldErrors(final Collection<FieldError> fieldErrors) {

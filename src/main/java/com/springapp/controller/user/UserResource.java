@@ -49,7 +49,7 @@ public interface UserResource {
      * @param id
      * @return
      */
-    Collection<Exercise> getExercisesForUser(Long id);
+    Collection<Exercise> getExercisesPerUser(Long id);
 
     /**
      * This method assign an exercise to a specified user.
@@ -57,6 +57,6 @@ public interface UserResource {
      * @param userId
      * @param exerciseId
      */
-    void setExerciseToUser(Long userId, Long exerciseId);
+    void setExercisePerUser(Long userId, Long exerciseId);
 
 }
