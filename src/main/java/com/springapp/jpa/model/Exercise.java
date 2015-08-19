@@ -5,13 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,8 +41,9 @@ public class Exercise implements EntityId {
     @Column(name = "description", length = 45, nullable = true)
     private String description;
 
-    @ManyToMany(mappedBy = "exercises", fetch = FetchType.LAZY)
-    private Set<User> users = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade = CascadeType.ALL)
+    private Set<UserExercise> userExercise = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -67,13 +69,12 @@ public class Exercise implements EntityId {
         this.description = description;
     }
 
-    public void setUsers(final Set<User> users) {
-        this.users = users;
+    public Set<UserExercise> getUserExercise() {
+        return userExercise;
     }
 
-    @JsonIgnore
-    public Set<User> getUsers() {
-        return this.users;
+    public void setUserExercise(final Set<UserExercise> userExercise) {
+        this.userExercise = userExercise;
     }
 
     @Override

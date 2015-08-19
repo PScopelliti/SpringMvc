@@ -11,9 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,11 +35,9 @@ public class User implements EntityId {
     @Column(name = "username", length = 45, nullable = true)
     private String username;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_exercise",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "exercise_id")})
-    private Set<Exercise> exercises = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.exercise", cascade = CascadeType.ALL)
+    private Set<UserExercise> userExercise = new HashSet<>();
 
     @Override
     public Long getId() {
@@ -60,13 +56,12 @@ public class User implements EntityId {
         this.username = username;
     }
 
-    public void setExercises(final Set<Exercise> exercises) {
-        this.exercises = exercises;
+    public Set<UserExercise> getUserExercise() {
+        return userExercise;
     }
 
-    @JsonIgnore
-    public Set<Exercise> getExercises() {
-        return this.exercises;
+    public void setUserExercise(final Set<UserExercise> userExercise) {
+        this.userExercise = userExercise;
     }
 
     @Override

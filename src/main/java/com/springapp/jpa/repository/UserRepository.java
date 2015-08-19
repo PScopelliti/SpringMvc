@@ -12,9 +12,9 @@ import java.util.Collection;
  */
 public interface UserRepository extends BaseRepository<User, Long> {
 
-    String GET_EXERCISES_PER_USER_QUERY = "SELECT e " +
-            "FROM Exercise e LEFT JOIN e.users u " +
-            "WHERE u.id = :userId";
+    String GET_EXERCISES_PER_USER_QUERY = "SELECT u.pk.exercise " +
+            "FROM Exercise e LEFT JOIN e.userExercise u " +
+            "WHERE u.pk.user.id = :userId";
 //
 //    String UPDATE_EXERCISE_PER_USER_QUERY = "UPDATE Exercise e " +
 //            "SET e.users.id = :userId, e.users.exercise_id = :exerciseId";

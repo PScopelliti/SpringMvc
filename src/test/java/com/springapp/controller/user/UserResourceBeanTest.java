@@ -331,7 +331,7 @@ public class UserResourceBeanTest {
         when(userRepository.getExercisesPerUser(anyLong()))
                 .thenReturn(exercises);
 
-        mockMvc.perform(get("/user/{userId}/exercises", USER_ID, EXERCISE_ID))
+        mockMvc.perform(get("/user/{userId}/exercises", USER_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id").value(exercises.get(0).getId().intValue()))
