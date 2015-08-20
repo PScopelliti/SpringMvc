@@ -3,7 +3,10 @@ package com.springapp.controller.user;
 import com.springapp.exception.EntityNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
+import com.springapp.jpa.model.UserExercise;
+import com.springapp.jpa.model.UserExerciseId;
 import com.springapp.jpa.repository.ExerciseRepository;
+import com.springapp.jpa.repository.UserExerciseRepository;
 import com.springapp.jpa.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -33,12 +37,15 @@ public class UserResourceBean implements UserResource {
 
     private final UserRepository userRepository;
     private final ExerciseRepository exerciseRepository;
+    private final UserExerciseRepository userExerciseRepository;
 
     @Autowired
     public UserResourceBean(final UserRepository userRepository,
-                            final ExerciseRepository exerciseRepository) {
+                            final ExerciseRepository exerciseRepository,
+                            final UserExerciseRepository userExerciseRepository) {
         this.userRepository = userRepository;
         this.exerciseRepository = exerciseRepository;
+        this.userExerciseRepository = userExerciseRepository;
     }
 
     /**
@@ -64,12 +71,12 @@ public class UserResourceBean implements UserResource {
     /**
      * {@inheritDoc}
      */
+    @Override
     @RequestMapping(value = "/register",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> processRegistration(@Valid
                                                     @RequestBody
                                                     final User user) {
@@ -158,7 +165,8 @@ public class UserResourceBean implements UserResource {
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public void setExercisePerUser(@PathVariable
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void putExercisePerUser(@PathVariable
                                    final Long userId,
                                    @PathVariable
                                    final Long exerciseId) {
@@ -172,10 +180,48 @@ public class UserResourceBean implements UserResource {
         final Optional<Exercise> resultExercise = exerciseRepository.findOne(exerciseId);
         // Check if exercise exists
         if (!resultExercise.isPresent()) {
-            throw new EntityNotFoundException(userId, Exercise.class.getSimpleName());
+            throw new EntityNotFoundException(exerciseId, Exercise.class.getSimpleName());
         }
 
+        final UserExerciseId userExerciseId = new UserExerciseId();
+        final UserExercise userExercise = new UserExercise();
 
+        userExerciseId.setExercise(resultExercise.get());
+        userExerciseId.setUser(resultUser.get());
+        userExercise.setPk(userExerciseId);
+        userExercise.setCreatedDate(new Date());
+
+        userExerciseRepository.save(userExercise);
     }
 
+    @Override
+    @RequestMapping(value = "/{userId}/exercise/{exerciseId}",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteExercisePerUser(@PathVariable
+                                      final Long userId,
+                                      @PathVariable
+                                      final Long exerciseId) {
+
+        final Optional<User> resultUser = userRepository.findOne(userId);
+        // Check if user exists
+        if (!resultUser.isPresent()) {
+            throw new EntityNotFoundException(userId, User.class.getSimpleName());
+        }
+
+        final Optional<Exercise> resultExercise = exerciseRepository.findOne(exerciseId);
+        // Check if exercise exists
+        if (!resultExercise.isPresent()) {
+            throw new EntityNotFoundException(exerciseId, Exercise.class.getSimpleName());
+        }
+
+        final UserExerciseId userExerciseId = new UserExerciseId();
+        userExerciseId.setExercise(resultExercise.get());
+        userExerciseId.setUser(resultUser.get());
+
+        userExerciseRepository.delete(userExerciseId);
+
+    }
 }

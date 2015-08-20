@@ -57,6 +57,13 @@ public interface UserResource {
      * @param userId
      * @param exerciseId
      */
-    void setExercisePerUser(Long userId, Long exerciseId);
+    void putExercisePerUser(Long userId, Long exerciseId);
 
+    /**
+     * This method delete an exercise for a specified user.
+     *
+     * @param userId
+     * @param exerciseId
+     */
+    void deleteExercisePerUser(Long userId, Long exerciseId);
 }

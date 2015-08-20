@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 /**
- * This represent a base repository that contains commons methods shared between repositories.
+ * This interface represent a base repository that contains commons methods shared between repositories.
  */
 @NoRepositoryBean
 public interface BaseRepository <T, ID extends Serializable> extends Repository<T, ID> {
@@ -17,8 +17,8 @@ public interface BaseRepository <T, ID extends Serializable> extends Repository<
 
     T save(T persisted);
 
-    void delete(Long id);
+    void delete(ID id);
 
-    Optional<T> findOne(Long id);
+    Optional<T> findOne(ID id);
 
 }
