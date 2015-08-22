@@ -74,13 +74,9 @@ public class ExerciseResourceBean implements ExerciseResource {
     public Exercise showExerciseDetails(@PathVariable
                                         final Long id) {
 
-        final Optional<Exercise> result = exerciseRepository.findOne(id);
+        final Optional<Exercise> result = findExercise(id);
 
-        if (result.isPresent()) {
-            return result.get();
-        }
-
-        throw new EntityNotFoundException(id, Exercise.class.getSimpleName());
+        return result.get();
     }
 
     /**
@@ -93,11 +89,7 @@ public class ExerciseResourceBean implements ExerciseResource {
     @ResponseStatus(HttpStatus.OK)
     public void deleteExerciseById(@PathVariable
                                    final Long id) {
-        final Optional<Exercise> result = exerciseRepository.findOne(id);
-
-        if (!result.isPresent()) {
-            throw new EntityNotFoundException(id, Exercise.class.getSimpleName());
-        }
+        findExercise(id);
 
         exerciseRepository.delete(id);
     }
@@ -115,13 +107,25 @@ public class ExerciseResourceBean implements ExerciseResource {
                                    final Exercise exercise,
                                    @PathVariable
                                    final Long id) {
+        final Optional<Exercise> result = findExercise(id);
+        final Exercise ex = result.get();
+        ex.setDescription(exercise.getDescription());
+        ex.setName(exercise.getName());
+        return exerciseRepository.save(ex);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<Exercise> findExercise(final Long id) {
         final Optional<Exercise> result = exerciseRepository.findOne(id);
-        if (result.isPresent()) {
-            final Exercise ex = result.get();
-            ex.setDescription(exercise.getDescription());
-            ex.setName(exercise.getName());
-            return exerciseRepository.save(ex);
+
+        // Check if exercise exists
+        if (!result.isPresent()) {
+            throw new EntityNotFoundException(id, Exercise.class.getSimpleName());
         }
-        throw new EntityNotFoundException(id, Exercise.class.getSimpleName());
+
+        return result;
     }
 }

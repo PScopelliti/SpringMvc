@@ -1,10 +1,12 @@
 package com.springapp.controller.user;
 
+import com.springapp.exception.EntityNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * The aim of this resource is to interact with user resource
@@ -52,18 +54,11 @@ public interface UserResource {
     Collection<Exercise> getExercisesPerUser(Long id);
 
     /**
-     * This method assign an exercise to a specified user.
+     * This method return a user with specified Id.
      *
      * @param userId
-     * @param exerciseId
+     * @return
+     * @throws EntityNotFoundException if user doesn't exist.
      */
-    void putExercisePerUser(Long userId, Long exerciseId);
-
-    /**
-     * This method delete an exercise for a specified user.
-     *
-     * @param userId
-     * @param exerciseId
-     */
-    void deleteExercisePerUser(Long userId, Long exerciseId);
+    Optional<User> findUser(Long userId);
 }
