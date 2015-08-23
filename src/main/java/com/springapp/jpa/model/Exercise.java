@@ -42,7 +42,7 @@ public class Exercise implements EntityId {
     private String description;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade = CascadeType.REMOVE)
     private Set<UserExercise> userExercise = new HashSet<>();
 
     public Long getId() {

@@ -1,5 +1,6 @@
 package com.springapp.jpa.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
@@ -10,10 +11,10 @@ import java.io.Serializable;
 @Embeddable
 public class UserExerciseId implements Serializable {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Exercise exercise;
 
     public User getUser() {

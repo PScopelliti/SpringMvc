@@ -30,5 +30,9 @@ app.factory('httpFactory', function ($http) {
         return $http.post('./user/register', user);
     };
 
+    factory.deleteUser = function (id) {
+        return $http.delete('./user/' + id);
+    };
+
     return factory;
 });

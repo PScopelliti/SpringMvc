@@ -36,7 +36,7 @@ public class User implements EntityId {
     private String username;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.exercise", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.exercise", cascade = CascadeType.REMOVE)
     private Set<UserExercise> userExercise = new HashSet<>();
 
     @Override
