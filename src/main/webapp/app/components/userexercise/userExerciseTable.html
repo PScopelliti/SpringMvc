@@ -1,0 +1,47 @@
+<div>
+    <h3>User Exercises </h3>
+
+    <div ng-controller="userExercisesController">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>USER ID</th>
+                <th>EXERCISE ID</th>
+            </tr>
+            </thead>
+            <tr ng-repeat="userExercise in userExercises">
+                <td>
+                                <span editable-select="userExercise.pk.user.id"
+                                      e-name="userid"
+                                      onshow="loadUsers()"
+                                      e-form="userexerciseform"
+                                      e-ng-options="">
+                                  {{ showUsers(userExercise)}}
+                                </span>
+                </td>
+                <td>
+
+                </td>
+                <td style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="userexerciseform" onbeforesave=""
+                          ng-show="userexerciseform.$visible" class="form-buttons form-inline"
+                          shown="inserted == userExercise" oncancel="cancel()">
+                        <button type="submit" ng-disabled="userexerciseform.$waiting" class="btn btn-primary">
+                            Save
+                        </button>
+                        <button type="button" ng-disabled="userexerciseform.$waiting"
+                                ng-click="userexerciseform.$cancel()"
+                                class="btn btn-default">
+                            Cancel
+                        </button>
+                    </form>
+                    <div class="buttons" ng-show="!userexerciseform.$visible">
+                        <button class="btn btn-primary" ng-click="userexerciseform.$show()">Edit</button>
+                        <button class="btn btn-danger" ng-click="">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

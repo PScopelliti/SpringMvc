@@ -1,5 +1,9 @@
 package com.springapp.controller.userexercise;
 
+import com.springapp.jpa.model.UserExercise;
+
+import java.util.Collection;
+
 /**
  * The aim of this resource is to interact with UserExercise resource
  */
@@ -21,4 +25,12 @@ public interface UserExerciseResource {
      */
     void deleteExercisePerUser(Long userId, Long exerciseId);
 
+    /**
+     * This method returns a list of UserExercise.
+     * Returns the full object with User and Exercise,
+     * probably this could be cause performance issues.
+     *
+     * @return
+     */
+    Collection<UserExercise> getUserExercises();
 }

@@ -1,5 +1,6 @@
 package com.springapp.jpa.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -43,6 +44,7 @@ public class UserExercise {
     }
 
     @Transient
+    @JsonIgnore
     public User getUser() {
         return getPk().getUser();
     }
@@ -52,6 +54,7 @@ public class UserExercise {
     }
 
     @Transient
+    @JsonIgnore
     public Exercise getExercise() {
         return getPk().getExercise();
     }

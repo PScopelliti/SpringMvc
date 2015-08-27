@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ import java.util.Optional;
  */
 @Controller
 @RequestMapping(value = "/user")
-public class UserExerciseResourceBean implements UserExerciseResource{
+public class UserExerciseResourceBean implements UserExerciseResource {
 
     private UserResource userResource;
     private ExerciseResource exerciseResource;
@@ -93,5 +94,18 @@ public class UserExerciseResourceBean implements UserExerciseResource{
         userExerciseId.setUser(resultUser.get());
 
         userExerciseRepository.delete(userExerciseId);
+    }
+
+    /**
+     * {@inheritDoc}
+     * TODO:  WRITE UNIT TEST
+     */
+    @Override
+    @RequestMapping(value = "/exercises",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Collection<UserExercise> getUserExercises() {
+        return userExerciseRepository.findAll();
     }
 }
