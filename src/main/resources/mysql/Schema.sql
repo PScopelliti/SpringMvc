@@ -20,6 +20,8 @@ CREATE TABLE `spring`.`user_exercise` (
   `exercise_id` INT NOT NULL,
   PRIMARY KEY (`exercise_id`, `user_id`),
   INDEX `FK_EXERCISE` (`exercise_id`),
-  CONSTRAINT `FK_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FK_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+    ON DELETE CASCADE,
   CONSTRAINT `FK_EXERCISE` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`exercise_id`)
+    ON DELETE CASCADE
 );
