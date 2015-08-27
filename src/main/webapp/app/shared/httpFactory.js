@@ -34,5 +34,9 @@ app.factory('httpFactory', function ($http) {
         return $http.delete('./user/' + id);
     };
 
+    factory.getUserExercises = function () {
+        return $http.get('./user/exercises');
+    }
+
     return factory;
 });
