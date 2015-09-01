@@ -1,6 +1,7 @@
 package com.springapp.controller.userexercise;
 
 import com.springapp.jpa.model.UserExercise;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
 
@@ -15,7 +16,7 @@ public interface UserExerciseResource {
      * @param userId
      * @param exerciseId
      */
-    void putExercisePerUser(Long userId, Long exerciseId);
+    void putExercisePerUser(Long userId, Long exerciseId, UserExercise userExercise);
 
     /**
      * This method delete an exercise for a specified user.
@@ -33,4 +34,10 @@ public interface UserExerciseResource {
      * @return
      */
     Collection<UserExercise> getUserExercises();
+
+    /**
+     * @return
+     */
+    ResponseEntity<UserExercise> postExercisePerUser(Long userId, Long exerciseId);
+
 }

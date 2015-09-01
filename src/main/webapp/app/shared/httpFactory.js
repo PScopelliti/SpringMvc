@@ -36,7 +36,15 @@ app.factory('httpFactory', function ($http) {
 
     factory.getUserExercises = function () {
         return $http.get('./user/exercises');
-    }
+    };
+
+    factory.deleteUserExercise = function (userId, exerciseId) {
+        return $http.delete('./user/' + userId + '/exercise/' + exerciseId);
+    };
+
+    factory.updateUserExercise = function (userId, exerciseId, userExercise) {
+        return $http.put('./user/' + userId + '/exercise/' + exerciseId, userExercise);
+    };
 
     return factory;
 });

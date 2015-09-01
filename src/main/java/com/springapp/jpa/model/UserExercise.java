@@ -59,7 +59,7 @@ public class UserExercise {
         return getPk().getExercise();
     }
 
-    public void setCategory(final Exercise exercise) {
+    public void setExercise(final Exercise exercise) {
         getPk().setExercise(exercise);
     }
 

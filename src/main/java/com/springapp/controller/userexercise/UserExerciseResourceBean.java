@@ -8,15 +8,20 @@ import com.springapp.jpa.model.UserExercise;
 import com.springapp.jpa.model.UserExerciseId;
 import com.springapp.jpa.repository.UserExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
@@ -47,14 +52,14 @@ public class UserExerciseResourceBean implements UserExerciseResource {
      */
     @Override
     @RequestMapping(value = "/{userId}/exercise/{exerciseId}",
-            method = RequestMethod.PUT,
+            method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void putExercisePerUser(@PathVariable
-                                   final Long userId,
-                                   @PathVariable
-                                   final Long exerciseId) {
+    public ResponseEntity<UserExercise> postExercisePerUser(@PathVariable
+                                                            final Long userId,
+                                                            @PathVariable
+                                                            final Long exerciseId) {
 
         final Optional<User> resultUser = userResource.findUser(userId);
 
@@ -68,7 +73,52 @@ public class UserExerciseResourceBean implements UserExerciseResource {
         userExercise.setPk(userExerciseId);
         userExercise.setCreatedDate(new Date());
 
-        userExerciseRepository.save(userExercise);
+        UserExercise savedUserExercise = userExerciseRepository.save(userExercise);
+
+        final HttpHeaders headers = new HttpHeaders();
+        final URI locationUri = ServletUriComponentsBuilder
+                .fromCurrentServletMapping().path("/user/")
+                .path(String.valueOf(savedUserExercise.getUser().getId()))
+                .path("/exercise/")
+                .path(String.valueOf(savedUserExercise.getExercise().getId()))
+                .build()
+                .toUri();
+
+        headers.setLocation(locationUri);
+
+        final ResponseEntity<UserExercise> responseEntity =
+                new ResponseEntity<>(savedUserExercise, headers, HttpStatus.CREATED);
+
+        return responseEntity;
+    }
+
+    /**
+     * {@inheritDoc}
+     * TODO:  WRITE UNIT TEST
+     */
+    @Override
+    @RequestMapping(value = "/{userId}/exercise/{exerciseId}",
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void putExercisePerUser(@PathVariable
+                                   final Long userId,
+                                   @PathVariable
+                                   final Long exerciseId,
+                                   @RequestBody
+                                   final UserExercise userExercise) {
+
+        final Optional<User> resultUser = userResource.findUser(userId);
+        final Optional<Exercise> resultExercise = exerciseResource.findExercise(exerciseId);
+
+        final Optional<UserExercise> returnedUserExercise = userExerciseRepository.findOne(userExercise.getPk());
+
+        if (returnedUserExercise.isPresent()) {
+            returnedUserExercise.get().setUser(resultUser.get());
+            returnedUserExercise.get().setExercise(resultExercise.get());
+            userExerciseRepository.save(userExercise);
+        }
     }
 
     /**
