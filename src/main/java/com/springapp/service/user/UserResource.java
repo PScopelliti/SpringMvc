@@ -3,13 +3,11 @@ package com.springapp.service.user;
 import com.springapp.exception.EntityNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
-import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
-import java.util.Optional;
 
 /**
- * The aim of this resource is to interact with user resource
+ * The aim of this resource is to interact with user object
  */
 public interface UserResource {
 
@@ -27,7 +25,7 @@ public interface UserResource {
      * @param user
      * @return
      */
-    ResponseEntity<User> processRegistration(User user);
+    User save(User user);
 
     /**
      * This method shows user details.
@@ -60,6 +58,13 @@ public interface UserResource {
      * @return
      * @throws EntityNotFoundException if user doesn't exist.
      */
-    Optional<User> findUser(Long userId);
+    User findUser(Long userId);
+
+    /**
+     * This method returns a list of users.
+     *
+     * @return
+     */
+    Collection<User> getUsers();
 }
 
