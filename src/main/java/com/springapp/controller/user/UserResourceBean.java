@@ -37,21 +37,7 @@ public class UserResourceBean implements UserResource {
         this.userRepository = userRepository;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @RequestMapping(value = "/{id}",
-            method = RequestMethod.DELETE)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteUserById(@PathVariable
-                               final Long id) {
-        // Check if user exists.
-        findUser(id);
 
-        userRepository.delete(id);
-    }
 
     /**
      * {@inheritDoc}

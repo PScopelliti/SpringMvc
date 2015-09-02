@@ -1,12 +1,12 @@
 package com.springapp.controller.userexercise;
 
-import com.springapp.controller.exercise.ExerciseResource;
 import com.springapp.controller.user.UserResource;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
 import com.springapp.jpa.model.UserExercise;
 import com.springapp.jpa.model.UserExerciseId;
 import com.springapp.jpa.repository.UserExerciseRepository;
+import com.springapp.service.exercise.ExerciseResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -114,11 +114,11 @@ public class UserExerciseResourceBean implements UserExerciseResource {
 
         final Optional<UserExercise> returnedUserExercise = userExerciseRepository.findOne(userExercise.getPk());
 
-        if (returnedUserExercise.isPresent()) {
-            returnedUserExercise.get().setUser(resultUser.get());
-            returnedUserExercise.get().setExercise(resultExercise.get());
-            userExerciseRepository.save(userExercise);
-        }
+//        if (returnedUserExercise.isPresent()) {
+//            returnedUserExercise.get().setUser(resultUser.get());
+//            returnedUserExercise.get().setExercise(resultExercise.get());
+//            userExerciseRepository.save(userExercise);
+//        }
     }
 
     /**

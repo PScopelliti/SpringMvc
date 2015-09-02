@@ -1,8 +1,7 @@
 package com.springapp.controller.exercise;
 
-import com.springapp.exception.EntityNotFoundException;
 import com.springapp.jpa.model.Exercise;
-import com.springapp.jpa.repository.ExerciseRepository;
+import com.springapp.service.exercise.ExerciseResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,35 +18,31 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Optional;
+import java.util.Collection;
 
 /**
- * Implementation of {@link com.springapp.controller.exercise.ExerciseResource}
+ * This class define a controller for exercises.
  */
 @Controller
-@RequestMapping(value = "/exercise")
-public class ExerciseResourceBean implements ExerciseResource {
+@RequestMapping(value = "/exercises")
+public class ExerciseController {
 
-    private final ExerciseRepository exerciseRepository;
+    private final ExerciseResource exerciseResource;
 
     @Autowired
-    public ExerciseResourceBean(final ExerciseRepository exerciseRepository) {
-        this.exerciseRepository = exerciseRepository;
+    public ExerciseController(final ExerciseResource exerciseResource) {
+        this.exerciseResource = exerciseResource;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
+    @ResponseBody
     @RequestMapping(value = "/register",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public ResponseEntity<Exercise> processRegistration(@Valid
                                                         @RequestBody
                                                         final Exercise exercise) {
-        final Exercise savedExercise = exerciseRepository.save(exercise);
+        final Exercise savedExercise = exerciseResource.save(exercise);
 
         final HttpHeaders headers = new HttpHeaders();
         final URI locationUri = ServletUriComponentsBuilder
@@ -63,69 +58,44 @@ public class ExerciseResourceBean implements ExerciseResource {
         return responseEntity;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
+    @ResponseBody
     @RequestMapping(value = "/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public Exercise showExerciseDetails(@PathVariable
                                         final Long id) {
 
-        final Optional<Exercise> result = findExercise(id);
-
-        return result.get();
+        return exerciseResource.findExercise(id);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @RequestMapping(value = "/{id}",
-            method = RequestMethod.DELETE)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/{id}",
+            method = RequestMethod.DELETE)
     public void deleteExerciseById(@PathVariable
                                    final Long id) {
-        findExercise(id);
 
-        exerciseRepository.delete(id);
+        exerciseResource.deleteExerciseById(id);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
+    @ResponseBody
     @RequestMapping(value = "/{id}",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public Exercise updateExercise(@Valid
                                    @RequestBody
                                    final Exercise exercise,
                                    @PathVariable
                                    final Long id) {
-        final Optional<Exercise> result = findExercise(id);
-        final Exercise ex = result.get();
-        ex.setDescription(exercise.getDescription());
-        ex.setName(exercise.getName());
-        return exerciseRepository.save(ex);
+
+        return exerciseResource.updateExercise(exercise, id);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<Exercise> findExercise(final Long id) {
-        final Optional<Exercise> result = exerciseRepository.findOne(id);
-
-        // Check if exercise exists
-        if (!result.isPresent()) {
-            throw new EntityNotFoundException(id, Exercise.class.getSimpleName());
-        }
-
-        return result;
+    @ResponseBody
+    @RequestMapping(
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Collection<Exercise> getExercises() {
+        return exerciseResource.getExercises();
     }
 }

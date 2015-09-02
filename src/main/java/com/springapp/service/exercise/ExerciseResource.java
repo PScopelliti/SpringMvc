@@ -1,10 +1,9 @@
-package com.springapp.controller.exercise;
+package com.springapp.service.exercise;
 
 import com.springapp.exception.EntityNotFoundException;
 import com.springapp.jpa.model.Exercise;
-import org.springframework.http.ResponseEntity;
 
-import java.util.Optional;
+import java.util.Collection;
 
 /**
  * The aim of this resource is to interact with a Exercise object.
@@ -17,15 +16,7 @@ public interface ExerciseResource {
      * @param exercise
      * @return
      */
-    ResponseEntity<Exercise> processRegistration(Exercise exercise);
-
-    /**
-     * This method shows exercise details.
-     *
-     * @param id
-     * @return
-     */
-    Exercise showExerciseDetails(Long id);
+    Exercise save(Exercise exercise);
 
     /**
      * This method delete an exercise with specified id.
@@ -49,5 +40,12 @@ public interface ExerciseResource {
      * @return
      * @throws EntityNotFoundException if user doesn't exist.
      */
-    Optional<Exercise> findExercise(Long id);
+    Exercise findExercise(Long id);
+
+    /**
+     * This method returns a list of Exercises.
+     *
+     * @return
+     */
+    Collection<Exercise> getExercises();
 }
