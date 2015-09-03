@@ -1,8 +1,12 @@
 package com.springapp.service.userexercise;
 
 import com.springapp.exception.EntityNotFoundException;
+import com.springapp.jpa.model.Exercise;
+import com.springapp.jpa.model.User;
 import com.springapp.jpa.model.UserExercise;
 import com.springapp.jpa.model.UserExerciseId;
+
+import java.util.Collection;
 
 /**
  * The aim of this resource is to interact with UserExercise object
@@ -25,4 +29,19 @@ public interface UserExerciseResource {
      * @throws EntityNotFoundException if user doesn't exist.
      */
     UserExercise findUserExercise(UserExerciseId userExerciseId);
+
+    /**
+     * This method remove a UserExercise with specified id.
+     *
+     * @param exercise
+     * @param user
+     */
+    void deleteUserExercise(Exercise exercise, User user);
+
+    /**
+     * This method returns a list of userExercises.
+     *
+     * @return
+     */
+    Collection<UserExercise> getUsersExercises();
 }

@@ -5,6 +5,7 @@ import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
 import com.springapp.jpa.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.Optional;
 /**
  * Implementation of {@link com.springapp.service.user.UserResource}
  */
+@Controller
 public class UserResourceBean implements UserResource {
 
     private final UserRepository userRepository;

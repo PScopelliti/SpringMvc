@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +27,6 @@ import java.util.Date;
 /**
  * This class define a controller for userexercise.
  */
-@Controller
 @RequestMapping(value = "/users")
 public class UserExerciseController {
 
@@ -109,11 +107,8 @@ public class UserExerciseController {
 
         final UserExercise returnedUserExercise = userExerciseResource.findUserExercise(userExercise.getPk());
 
-//        if (returnedUserExercise.isPresent()) {
-//            returnedUserExercise.get().setUser(resultUser.get());
-//            returnedUserExercise.get().setExercise(resultExercise.get());
-//            userExerciseRepository.save(userExercise);
-//        }
+        userExerciseResource.save(userExercise);
+
     }
 
     /**
@@ -128,15 +123,12 @@ public class UserExerciseController {
                                       final Long userId,
                                       @PathVariable
                                       final Long exerciseId) {
+
         final User resultUser = userResource.findUser(userId);
 
         final Exercise resultExercise = exerciseResource.findExercise(exerciseId);
 
-        final UserExerciseId userExerciseId = new UserExerciseId();
-        userExerciseId.setExercise(resultExercise);
-        userExerciseId.setUser(resultUser);
-
-        userExerciseRepository.delete(userExerciseId);
+        userExerciseResource.deleteUserExercise(resultExercise, resultUser);
     }
 
     /**
@@ -148,6 +140,6 @@ public class UserExerciseController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<UserExercise> getUserExercises() {
-        return userExerciseRepository.findAll();
+        return userExerciseResource.getUsersExercises();
     }
 }
