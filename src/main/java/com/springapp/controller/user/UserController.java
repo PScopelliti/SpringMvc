@@ -55,7 +55,7 @@ public class UserController {
 
         final HttpHeaders headers = new HttpHeaders();
         final URI locationUri = ServletUriComponentsBuilder
-                .fromCurrentServletMapping().path("/user/")
+                .fromCurrentServletMapping().path("/users/")
                 .path(String.valueOf(savedUser.getId()))
                 .build()
                 .toUri();

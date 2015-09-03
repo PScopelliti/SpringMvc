@@ -75,7 +75,7 @@ public class UserControllerTest {
                 .content(IntegrationTestUtil.convertObjectToJsonBytes(user)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", "http://localhost/user/" + USER_ID))
+                .andExpect(header().string("Location", "http://localhost/users/" + USER_ID))
                 .andExpect(jsonPath("id").value(user.getId().intValue()))
                 .andExpect(jsonPath("username").value(user.getUsername()));
 
@@ -165,9 +165,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].description").value(exercises.get(0).getDescription()));
 
         // Verify mocks behaviour
-        verify(userResource, times(1)).findUser(USER_ID);
         verify(userResource, times(1)).getExercisesPerUser(USER_ID);
-
     }
 
     /**
@@ -184,11 +182,10 @@ public class UserControllerTest {
         when(userResource.findUser(anyLong()))
                 .thenReturn(originalUser);
 
-        mockMvc.perform(delete("/user/{id}", USER_ID))
+        mockMvc.perform(delete("/users/{id}", USER_ID))
                 .andExpect(status().isOk());
 
         verify(userResource, times(1)).deleteUserById(USER_ID);
-        verify(userResource, times(1)).findUser(USER_ID);
     }
 
     /**

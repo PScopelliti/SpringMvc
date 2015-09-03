@@ -77,13 +77,13 @@ public class ExerciseControllerTest {
         when(exerciseResource.save(any(Exercise.class)))
                 .thenReturn(exercise);
 
-        mockMvc.perform(post("/exercise/register")
+        mockMvc.perform(post("/exercises/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(IntegrationTestUtil.convertObjectToJsonBytes(exercise)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", "http://localhost/exercise/" + EXERCISE_ID))
+                .andExpect(header().string("Location", "http://localhost/exercises/" + EXERCISE_ID))
                 .andExpect(jsonPath("id").value(exercise.getId().intValue()))
                 .andExpect(jsonPath("name").value(exercise.getName()))
                 .andExpect(jsonPath("description").value(exercise.getDescription()));
@@ -106,7 +106,7 @@ public class ExerciseControllerTest {
         when(exerciseResource.findExercise(anyLong()))
                 .thenReturn(exercise);
 
-        mockMvc.perform(get("/exercise/{id}", EXERCISE_ID))
+        mockMvc.perform(get("/exercises/{id}", EXERCISE_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("id").value(exercise.getId().intValue()))
@@ -130,11 +130,10 @@ public class ExerciseControllerTest {
         when(exerciseResource.findExercise(anyLong()))
                 .thenReturn(originalEx);
 
-        mockMvc.perform(delete("/exercise/{id}", EXERCISE_ID))
+        mockMvc.perform(delete("/exercises/{id}", EXERCISE_ID))
                 .andExpect(status().isOk());
 
         verify(exerciseResource, times(1)).deleteExerciseById(EXERCISE_ID);
-        verify(exerciseResource, times(1)).findExercise(EXERCISE_ID);
     }
 
     /**
@@ -157,7 +156,7 @@ public class ExerciseControllerTest {
         when(exerciseResource.save(any(Exercise.class)))
                 .thenReturn(updatedEx);
 
-        mockMvc.perform(put("/exercise/{id}", EXERCISE_ID)
+        mockMvc.perform(put("/exercises/{id}", EXERCISE_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(IntegrationTestUtil.convertObjectToJsonBytes(updatedEx)))
