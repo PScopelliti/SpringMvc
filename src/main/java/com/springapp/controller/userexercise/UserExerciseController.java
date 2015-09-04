@@ -104,10 +104,13 @@ public class UserExerciseController {
         final User resultUser = userResource.findUser(userId);
         final Exercise resultExercise = exerciseResource.findExercise(exerciseId);
 
-        final UserExercise returnedUserExercise = userExerciseResource.findUserExercise(userExercise.getPk());
+        UserExerciseId userExerciseId = new UserExerciseId();
+        userExerciseId.setExercise(resultExercise);
+        userExerciseId.setUser(resultUser);
 
-        userExerciseResource.save(userExercise);
+        final UserExercise returnedUserExercise = userExerciseResource.findUserExercise(userExerciseId);
 
+        //userExerciseResource.save(userExercise);
     }
 
     /**

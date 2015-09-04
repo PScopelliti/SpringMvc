@@ -65,12 +65,25 @@ public class User implements EntityId {
     }
 
     @Override
-    public boolean equals(Object that) {
-        return EqualsBuilder.reflectionEquals(this, that);
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        final User that = (User) obj;
+        final EqualsBuilder eb = new EqualsBuilder();
+        eb.append(id, that.id);
+        eb.append(username, that.username);
+        return eb.isEquals();
     }
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        final HashCodeBuilder hcb = new HashCodeBuilder();
+        hcb.append(id);
+        hcb.append(username);
+        return hcb.toHashCode();
     }
 }

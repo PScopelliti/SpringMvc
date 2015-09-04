@@ -72,12 +72,25 @@ public class UserExercise {
     }
 
     @Override
-    public boolean equals(Object that) {
-        return EqualsBuilder.reflectionEquals(this, that);
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        final UserExercise that = (UserExercise) obj;
+        final EqualsBuilder eb = new EqualsBuilder();
+        eb.append(pk.getUser().getId(), that.pk.getUser().getId());
+        eb.append(pk.getExercise().getId(), that.pk.getExercise().getId());
+        return eb.isEquals();
     }
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        final HashCodeBuilder hcb = new HashCodeBuilder();
+        hcb.append(pk.getUser().getId());
+        hcb.append(pk.getExercise().getId());
+        return hcb.toHashCode();
     }
 }
