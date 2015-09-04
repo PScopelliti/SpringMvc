@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -22,6 +22,7 @@ import java.util.Collection;
 /**
  * This class define a controller for exercises.
  */
+@RestController
 @RequestMapping(value = "/exercises")
 public class ExerciseController {
 
@@ -32,7 +33,6 @@ public class ExerciseController {
         this.exerciseResource = exerciseResource;
     }
 
-    @ResponseBody
     @RequestMapping(value = "/register",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -56,7 +56,6 @@ public class ExerciseController {
         return responseEntity;
     }
 
-    @ResponseBody
     @RequestMapping(value = "/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -66,7 +65,6 @@ public class ExerciseController {
         return exerciseResource.findExercise(id);
     }
 
-    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{id}",
             method = RequestMethod.DELETE)
@@ -76,7 +74,6 @@ public class ExerciseController {
         exerciseResource.deleteExerciseById(id);
     }
 
-    @ResponseBody
     @RequestMapping(value = "/{id}",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -89,7 +86,6 @@ public class ExerciseController {
         return exerciseResource.updateExercise(exercise, id);
     }
 
-    @ResponseBody
     @RequestMapping(
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)

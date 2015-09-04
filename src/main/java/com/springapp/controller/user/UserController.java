@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -23,6 +23,7 @@ import java.util.Collection;
 /**
  * This class define a controller for users.
  */
+@RestController
 @RequestMapping(value = "/users")
 public class UserController {
 
@@ -33,7 +34,6 @@ public class UserController {
         this.userResource = userResource;
     }
 
-    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{id}",
             method = RequestMethod.DELETE)
@@ -43,7 +43,6 @@ public class UserController {
         userResource.deleteUserById(id);
     }
 
-    @ResponseBody
     @RequestMapping(value = "/register",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -67,7 +66,6 @@ public class UserController {
         return responseEntity;
     }
 
-    @ResponseBody
     @RequestMapping(value = "/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,7 +75,6 @@ public class UserController {
         return userResource.showUserDetails(id);
     }
 
-    @ResponseBody
     @RequestMapping(value = "/{id}",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -90,7 +87,6 @@ public class UserController {
         return userResource.updateUser(user, id);
     }
 
-    @ResponseBody
     @RequestMapping(value = "/{id}/exercises",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -100,7 +96,6 @@ public class UserController {
         return userResource.getExercisesPerUser(id);
     }
 
-    @ResponseBody
     @RequestMapping(
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)

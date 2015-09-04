@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -94,7 +95,7 @@ public class UserControllerTest {
 
         final User user = UserStubFactory.createStubbedUser(USER_ID);
 
-        when(userResource.findUser(anyLong()))
+        when(userResource.showUserDetails(anyLong()))
                 .thenReturn(user);
 
         mockMvc.perform(get("/users/{id}", USER_ID))
@@ -103,7 +104,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("id").value(user.getId().intValue()))
                 .andExpect(jsonPath("username").value(user.getUsername()));
 
-        verify(userResource, times(1)).findUser(USER_ID);
+        verify(userResource, times(1)).showUserDetails(USER_ID);
     }
 
     /**
@@ -114,15 +115,11 @@ public class UserControllerTest {
     @Test
     public void shouldReturnExpectedResponseToPut() throws Exception {
 
-        final User originalUser = UserStubFactory.createStubbedUser(USER_ID);
         final User updatedUser = UserStubFactory
                 .createStubUserWithCustomFields(USER_ID,
                         SOME_NEW_USERNAME);
 
-        when(userResource.findUser(anyLong()))
-                .thenReturn(originalUser);
-
-        when(userResource.save(any(User.class)))
+        when(userResource.updateUser(isA(User.class), anyLong()))
                 .thenReturn(updatedUser);
 
         mockMvc.perform(put("/users/{id}", USER_ID)
@@ -134,8 +131,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("id").value(updatedUser.getId().intValue()))
                 .andExpect(jsonPath("username").value(updatedUser.getUsername()));
 
-        verify(userResource, times(1)).findUser(USER_ID);
-        verify(userResource, times(1)).save(updatedUser);
+        verify(userResource, times(1)).updateUser(updatedUser, USER_ID);
 
     }
 

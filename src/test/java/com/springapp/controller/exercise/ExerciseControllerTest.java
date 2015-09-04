@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -144,16 +145,12 @@ public class ExerciseControllerTest {
     @Test
     public void shouldReturnExpectedResponseToPut() throws Exception {
 
-        final Exercise originalEx = ExerciseStubFactory.createStubExercise(EXERCISE_ID);
         final Exercise updatedEx = ExerciseStubFactory
                 .createStubExerciseWithCustomFields(EXERCISE_ID,
                         SOME_NEW_DESCRIPTION,
                         SOME_NEW_NAME);
 
-        when(exerciseResource.findExercise(anyLong()))
-                .thenReturn(originalEx);
-
-        when(exerciseResource.save(any(Exercise.class)))
+        when(exerciseResource.updateExercise(isA(Exercise.class), anyLong()))
                 .thenReturn(updatedEx);
 
         mockMvc.perform(put("/exercises/{id}", EXERCISE_ID)
@@ -166,8 +163,7 @@ public class ExerciseControllerTest {
                 .andExpect(jsonPath("name").value(updatedEx.getName()))
                 .andExpect(jsonPath("description").value(updatedEx.getDescription()));
 
-        verify(exerciseResource, times(1)).findExercise(EXERCISE_ID);
-        verify(exerciseResource, times(1)).save(updatedEx);
+        verify(exerciseResource, times(1)).updateExercise(updatedEx, EXERCISE_ID);
     }
 
     /**

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -27,6 +27,7 @@ import java.util.Date;
 /**
  * This class define a controller for userexercise.
  */
+@RestController
 @RequestMapping(value = "/users")
 public class UserExerciseController {
 
@@ -46,7 +47,6 @@ public class UserExerciseController {
     /**
      * TODO:  WRITE UNIT TEST
      */
-    @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{userId}/exercises/{exerciseId}",
             method = RequestMethod.POST,
@@ -90,7 +90,6 @@ public class UserExerciseController {
     /**
      * TODO:  WRITE UNIT TEST
      */
-    @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{userId}/exercises/{exerciseId}",
             method = RequestMethod.PUT,
@@ -114,7 +113,6 @@ public class UserExerciseController {
     /**
      * TODO:  WRITE UNIT TEST
      */
-    @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{userId}/exercises/{exerciseId}",
             method = RequestMethod.DELETE,
@@ -135,7 +133,6 @@ public class UserExerciseController {
      * {@inheritDoc}
      * TODO:  WRITE UNIT TEST
      */
-    @ResponseBody
     @RequestMapping(value = "/exercises",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)

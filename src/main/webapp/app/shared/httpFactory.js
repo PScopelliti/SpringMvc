@@ -7,15 +7,15 @@ app.factory('httpFactory', function ($http) {
     };
 
     factory.deleteExercise = function (id) {
-        return $http.delete('./exercise/' + id);
+        return $http.delete('./exercises/' + id);
     };
 
     factory.updateExercise = function (id, exercise) {
-        return $http.put('./exercise/' + id, exercise);
+        return $http.put('./exercises/' + id, exercise);
     };
 
     factory.addExercise = function (exercise) {
-        return $http.post('./exercise/register', exercise);
+        return $http.post('./exercises/register', exercise);
     };
 
     factory.getUsers = function () {
@@ -27,23 +27,23 @@ app.factory('httpFactory', function ($http) {
     };
 
     factory.addUser = function (user) {
-        return $http.post('./user/register', user);
+        return $http.post('./users/register', user);
     };
 
     factory.deleteUser = function (id) {
-        return $http.delete('./user/' + id);
+        return $http.delete('./users/' + id);
     };
 
     factory.getUserExercises = function () {
-        return $http.get('./user/exercises');
+        return $http.get('./users/exercises');
     };
 
     factory.deleteUserExercise = function (userId, exerciseId) {
-        return $http.delete('./user/' + userId + '/exercise/' + exerciseId);
+        return $http.delete('./users/' + userId + '/exercises/' + exerciseId);
     };
 
     factory.updateUserExercise = function (userId, exerciseId, userExercise) {
-        return $http.put('./user/' + userId + '/exercise/' + exerciseId, userExercise);
+        return $http.put('./users/' + userId + '/exercises/' + exerciseId, userExercise);
     };
 
     return factory;
