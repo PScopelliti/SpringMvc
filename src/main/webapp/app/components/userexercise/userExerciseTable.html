@@ -12,7 +12,7 @@
             </thead>
             <tr ng-repeat="userExercise in userExercises">
                 <td>
-                                <span editable-select="userExercise.pk.user.id"
+                                <span editable-select="userExercise.userId"
                                       e-name="userid"
                                       onshow="loadUsers()"
                                       e-form="userexerciseform"
@@ -22,7 +22,7 @@
                                 </span>
                 </td>
                 <td>
-                                <span editable-select="userExercise.pk.exercise.id"
+                                <span editable-select="userExercise.exerciseId"
                                       e-name="exerciseid"
                                       onshow="loadExercises()"
                                       e-form="userexerciseform"
@@ -35,7 +35,7 @@
                                 <span e-name="id"
                                       e-form="userexerciseform"
                                       e-required>
-                                    {{ userExercise.createdDate}}
+                                    {{ userExercise.creationDate}}
                                 </span>
                 </td>
                 <td style="white-space: nowrap">
@@ -53,7 +53,6 @@
                         </button>
                     </form>
                     <div class="buttons" ng-show="!userexerciseform.$visible">
-                        <button class="btn btn-primary" ng-click="userexerciseform.$show()">Edit</button>
                         <button class="btn btn-danger" ng-click="removeUserExercise($index)">Delete</button>
                     </div>
                 </td>

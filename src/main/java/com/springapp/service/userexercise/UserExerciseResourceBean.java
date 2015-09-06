@@ -2,20 +2,25 @@ package com.springapp.service.userexercise;
 
 import com.springapp.exception.EntityNotFoundException;
 import com.springapp.jpa.model.Exercise;
+import com.springapp.jpa.model.SimpleUserExercise;
 import com.springapp.jpa.model.User;
 import com.springapp.jpa.model.UserExercise;
 import com.springapp.jpa.model.UserExerciseId;
 import com.springapp.jpa.repository.UserExerciseRepository;
+import com.springapp.utility.mapping.UserExerciseUtility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 /**
  * Implementation of {@link com.springapp.service.userexercise.UserExerciseResource}
  */
-@Controller
+@Service
 public class UserExerciseResourceBean implements UserExerciseResource {
 
     private final UserExerciseRepository userExerciseRepository;
@@ -64,7 +69,14 @@ public class UserExerciseResourceBean implements UserExerciseResource {
      * {@inheritDoc}
      */
     @Override
-    public Collection<UserExercise> getUsersExercises() {
-        return userExerciseRepository.findAll();
+    public Collection<SimpleUserExercise> getUsersExercises() {
+        final Collection<UserExercise> result = userExerciseRepository.findAll();
+        final List<SimpleUserExercise> simpleUserExercisesList = new ArrayList<>();
+
+        for (final Iterator<UserExercise> iterator = result.iterator(); iterator.hasNext(); ) {
+            simpleUserExercisesList.add(UserExerciseUtility.createSimpleUserExercise(iterator.next()));
+        }
+
+        return simpleUserExercisesList;
     }
 }

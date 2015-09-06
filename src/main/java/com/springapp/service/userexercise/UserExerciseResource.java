@@ -2,6 +2,7 @@ package com.springapp.service.userexercise;
 
 import com.springapp.exception.EntityNotFoundException;
 import com.springapp.jpa.model.Exercise;
+import com.springapp.jpa.model.SimpleUserExercise;
 import com.springapp.jpa.model.User;
 import com.springapp.jpa.model.UserExercise;
 import com.springapp.jpa.model.UserExerciseId;
@@ -43,5 +44,5 @@ public interface UserExerciseResource {
      *
      * @return
      */
-    Collection<UserExercise> getUsersExercises();
+    Collection<SimpleUserExercise> getUsersExercises();
 }

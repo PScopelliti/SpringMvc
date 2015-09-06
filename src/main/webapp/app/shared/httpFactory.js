@@ -42,8 +42,8 @@ app.factory('httpFactory', function ($http) {
         return $http.delete('./users/' + userId + '/exercises/' + exerciseId);
     };
 
-    factory.updateUserExercise = function (userId, exerciseId, userExercise) {
-        return $http.put('./users/' + userId + '/exercises/' + exerciseId, userExercise);
+    factory.saveUserExercise = function (userId, exerciseId) {
+        return $http.post('./users/' + userId + '/exercises/' + exerciseId);
     };
 
     return factory;

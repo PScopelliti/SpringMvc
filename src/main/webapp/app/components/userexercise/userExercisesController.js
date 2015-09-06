@@ -34,27 +34,27 @@ app.controller('userExercisesController', function ($scope, $filter, httpFactory
     };
 
     $scope.showUsers = function (userExercises) {
-        if (userExercises.pk.user && $scope.users.length) {
-            var selected = $filter('filter')($scope.users, {id: userExercises.pk.user.id});
+        if ($scope.users.length) {
+            var selected = $filter('filter')($scope.users, {id: userExercises.userId});
             return selected.length ? selected[0].id : 'Not set';
         } else {
-            return userExercises.pk.user.id || 'Not set';
+            return userExercises.userId || 'Not set';
         }
     };
 
     $scope.showExercises = function (userExercises) {
-        if (userExercises.pk.exercise && $scope.exercises.length) {
-            var selected = $filter('filter')($scope.exercises, {id: userExercises.pk.exercise.id});
+        if ($scope.exercises.length) {
+            var selected = $filter('filter')($scope.exercises, {id: userExercises.exerciseId});
             return selected.length ? selected[0].id : 'Not set';
         } else {
-            return userExercises.pk.exercise.id || 'Not set';
+            return userExercises.exerciseId || 'Not set';
         }
     };
 
     // remove user exercise
     $scope.removeUserExercise = function (index) {
-        var userId = $scope.userExercises[index].pk.user.id;
-        var exerciseId = $scope.userExercises[index].pk.exercise.id;
+        var userId = $scope.userExercises[index].userId;
+        var exerciseId = $scope.userExercises[index].exerciseId;
         $scope.userExercises.splice(index, 1);
         httpFactory.deleteUserExercise(userId, exerciseId)
             .success(function (data) {
@@ -69,18 +69,51 @@ app.controller('userExercisesController', function ($scope, $filter, httpFactory
 
         var form = this.userexerciseform;
 
-        console.log('data', data);
-        console.log('userExercise', userExercise);
+        if (data.userId == undefined) {
+            form.$setError('userid', 'wrong value');
+        }
+
+        if (data.exerciseId == undefined) {
+            form.$setError('exerciseid', 'wrong value');
+        }
 
         // If we need to update a previous user
-        return httpFactory.updateUserExercise(data.userid, data.exerciseid, userExercise)
+        return httpFactory.saveUserExercise(data.userid, data.exerciseid)
             .success(function (data) {
-                console.log('success', data);
+                // setting userexercise data
+                userExercise.creationDate = data.createdDate;
+
+                userExercise.isNew = false;
             })
-            .error(function (error) {
-                for (var i = 0; i < error.errors.length; i++) {
-                    form.$setError(error.errors[i].field, error.errors[i].message);
+            .error(function (error, status, headers, config) {
+                if (status == 400) {
+                    return 'Error';
                 }
+                console.log('error', error);
             });
+    };
+
+    $scope.addUserExercise = function () {
+        $scope.inserted = {
+            userId: '',
+            exerciseId: '',
+            creationDate: undefined,
+            isNew: true
+        };
+        $scope.userExercises.push($scope.inserted);
+    };
+
+    $scope.checkSelection = function (data) {
+        console.log('data', data);
+    };
+
+    $scope.cancel = function () {
+        for (var i = $scope.userExercises.length; i--;) {
+            var userExercises = $scope.userExercises[i];
+            // remove new
+            if (userExercises.isNew) {
+                $scope.userExercises.splice(i, 1);
+            }
+        }
     };
 });

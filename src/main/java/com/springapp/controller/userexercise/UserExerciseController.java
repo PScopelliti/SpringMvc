@@ -1,6 +1,7 @@
 package com.springapp.controller.userexercise;
 
 import com.springapp.jpa.model.Exercise;
+import com.springapp.jpa.model.SimpleUserExercise;
 import com.springapp.jpa.model.User;
 import com.springapp.jpa.model.UserExercise;
 import com.springapp.jpa.model.UserExerciseId;
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -92,32 +92,6 @@ public class UserExerciseController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{userId}/exercises/{exerciseId}",
-            method = RequestMethod.PUT,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public void putExercisePerUser(@PathVariable
-                                   final Long userId,
-                                   @PathVariable
-                                   final Long exerciseId,
-                                   @RequestBody
-                                   final UserExercise userExercise) {
-
-        final User resultUser = userResource.findUser(userId);
-        final Exercise resultExercise = exerciseResource.findExercise(exerciseId);
-
-        UserExerciseId userExerciseId = new UserExerciseId();
-        userExerciseId.setExercise(resultExercise);
-        userExerciseId.setUser(resultUser);
-
-        final UserExercise returnedUserExercise = userExerciseResource.findUserExercise(userExerciseId);
-
-        //userExerciseResource.save(userExercise);
-    }
-
-    /**
-     * TODO:  WRITE UNIT TEST
-     */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/{userId}/exercises/{exerciseId}",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteExercisePerUser(@PathVariable
@@ -139,7 +113,7 @@ public class UserExerciseController {
     @RequestMapping(value = "/exercises",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Collection<UserExercise> getUserExercises() {
+    public Collection<SimpleUserExercise> getUserExercises() {
         return userExerciseResource.getUsersExercises();
     }
 }
