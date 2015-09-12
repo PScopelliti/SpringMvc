@@ -6,5 +6,5 @@ package com.springapp.jpa.model;
  */
 public interface EntityId {
 
-    Long getId();
+    Integer getId();
 }

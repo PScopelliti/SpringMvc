@@ -20,8 +20,8 @@ public enum DbConfigProperty implements ConfigProperty {
     SPRING_SHOW_SQL_LOG("hibernate.show_sql","true"),
     SPRING_FORMAT_SQL_LOG("hibernate.format_sql","true"),
 
-    // Hibernate ddl auto (create, create-drop, update)
-    SPRING_DDL_AUTO("hibernate.hbm2ddl.auto" ,"update"),
+    // Hibernate ddl auto (validate, create, create-drop, update)
+    SPRING_DDL_AUTO("hibernate.hbm2ddl.auto" ,"validate"),
 
     // Naming strategy
     SPRING_NAMING_STRATEGY("hibernate.ejb.naming_strategy","org.hibernate.cfg.ImprovedNamingStrategy"),

@@ -60,7 +60,7 @@ public class ExerciseController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Exercise showExerciseDetails(@PathVariable
-                                        final Long id) {
+                                        final Integer id) {
 
         return exerciseResource.findExercise(id);
     }
@@ -69,7 +69,7 @@ public class ExerciseController {
     @RequestMapping(value = "/{id}",
             method = RequestMethod.DELETE)
     public void deleteExerciseById(@PathVariable
-                                   final Long id) {
+                                   final Integer id) {
 
         exerciseResource.deleteExerciseById(id);
     }
@@ -81,7 +81,7 @@ public class ExerciseController {
                                    @RequestBody
                                    final Exercise exercise,
                                    @PathVariable
-                                   final Long id) {
+                                   final Integer id) {
 
         return exerciseResource.updateExercise(exercise, id);
     }

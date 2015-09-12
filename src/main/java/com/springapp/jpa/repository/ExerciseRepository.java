@@ -5,5 +5,5 @@ import com.springapp.jpa.model.Exercise;
 /**
  * This interface represent an Exercise repository
  */
-public interface ExerciseRepository extends BaseRepository<Exercise, Long> {
+public interface ExerciseRepository extends BaseRepository<Exercise, Integer> {
 }

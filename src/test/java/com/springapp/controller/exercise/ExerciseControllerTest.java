@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(MockitoJUnitRunner.class)
 public class ExerciseControllerTest {
 
-    private static final Long EXERCISE_ID = 123L;
+    private static final Integer EXERCISE_ID = 123;
     private static final String SOME_NEW_DESCRIPTION = "some_new_description";
     private static final String SOME_NEW_NAME = "some_new_name";
 
@@ -104,7 +104,7 @@ public class ExerciseControllerTest {
 
         final Exercise exercise = ExerciseStubFactory.createStubExercise(EXERCISE_ID);
 
-        when(exerciseResource.findExercise(anyLong()))
+        when(exerciseResource.findExercise(anyInt()))
                 .thenReturn(exercise);
 
         mockMvc.perform(get("/exercises/{id}", EXERCISE_ID))
@@ -128,7 +128,7 @@ public class ExerciseControllerTest {
 
         final Exercise originalEx = ExerciseStubFactory.createStubExercise(EXERCISE_ID);
 
-        when(exerciseResource.findExercise(anyLong()))
+        when(exerciseResource.findExercise(anyInt()))
                 .thenReturn(originalEx);
 
         mockMvc.perform(delete("/exercises/{id}", EXERCISE_ID))
@@ -150,7 +150,7 @@ public class ExerciseControllerTest {
                         SOME_NEW_DESCRIPTION,
                         SOME_NEW_NAME);
 
-        when(exerciseResource.updateExercise(isA(Exercise.class), anyLong()))
+        when(exerciseResource.updateExercise(isA(Exercise.class), anyInt()))
                 .thenReturn(updatedEx);
 
         mockMvc.perform(put("/exercises/{id}", EXERCISE_ID)

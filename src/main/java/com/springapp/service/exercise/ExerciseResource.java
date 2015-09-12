@@ -23,7 +23,7 @@ public interface ExerciseResource {
      *
      * @param id
      */
-    void deleteExerciseById(Long id);
+    void deleteExerciseById(Integer id);
 
     /**
      * This method update an exercise.
@@ -31,7 +31,7 @@ public interface ExerciseResource {
      * @param exercise
      * @return
      */
-    Exercise updateExercise(Exercise exercise, Long id);
+    Exercise updateExercise(Exercise exercise, Integer id);
 
     /**
      * This method return an exercise with specified Id.
@@ -40,7 +40,7 @@ public interface ExerciseResource {
      * @return
      * @throws EntityNotFoundException if user doesn't exist.
      */
-    Exercise findExercise(Long id);
+    Exercise findExercise(Integer id);
 
     /**
      * This method returns a list of Exercises.
