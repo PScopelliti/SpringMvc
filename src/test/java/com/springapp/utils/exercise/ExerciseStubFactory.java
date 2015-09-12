@@ -23,7 +23,7 @@ public class ExerciseStubFactory {
     public static final Collection<Exercise> createStubExercisesList(final int numberOfExercises) {
         final Collection<Exercise> exercisesList = new ArrayList<>();
         for (int index = 0; index < numberOfExercises; index++) {
-            final Exercise exercise = createStubExercise(new Long(index));
+            final Exercise exercise = createStubExercise(index);
             exercisesList.add(exercise);
         }
         return exercisesList;
@@ -35,7 +35,7 @@ public class ExerciseStubFactory {
      * @param exerciseId
      * @return
      */
-    public static final Exercise createStubExercise(final Long exerciseId) {
+    public static final Exercise createStubExercise(final Integer exerciseId) {
         final Exercise exercise = new Exercise();
         exercise.setDescription("some_description");
         exercise.setName("some_name");
@@ -49,7 +49,7 @@ public class ExerciseStubFactory {
      * @param exerciseId
      * @return
      */
-    public static final Exercise createStubExerciseWithCustomFields(final Long exerciseId,
+    public static final Exercise createStubExerciseWithCustomFields(final Integer exerciseId,
                                                                     final String description,
                                                                     final String name) {
         final Exercise exercise = new Exercise();

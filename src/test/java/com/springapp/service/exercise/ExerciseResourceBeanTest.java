@@ -18,19 +18,19 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
- * This class contains methods for verify that the Exercise controller manage requests/responses correctly.
+ * This class contains tests for verify that the Exercise Resource works correctly.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ExerciseResourceBeanTest {
 
-    private static final Long EXERCISE_ID = 123L;
+    private static final Integer EXERCISE_ID = 123;
     private static final String SOME_NEW_DESCRIPTION = "some_new_description";
     private static final String SOME_NEW_NAME = "some_new_name";
 
@@ -57,7 +57,7 @@ public class ExerciseResourceBeanTest {
     @Test
     public void shouldAddNewExercise() {
 
-        final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
+        final Exercise exercise = ExerciseStubFactory.createStubExercise(EXERCISE_ID);
 
         when(exerciseRepository.save(any(Exercise.class)))
                 .thenReturn(exercise);
@@ -102,9 +102,9 @@ public class ExerciseResourceBeanTest {
     @Test
     public void shouldReturnExerciseDetails() {
 
-        final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
+        final Exercise exercise = ExerciseStubFactory.createStubExercise(EXERCISE_ID);
 
-        when(exerciseRepository.findOne(anyLong()))
+        when(exerciseRepository.findOne(anyInt()))
                 .thenReturn(Optional.of(exercise));
 
         final Exercise result = sut.findExercise(EXERCISE_ID);
@@ -124,9 +124,9 @@ public class ExerciseResourceBeanTest {
     @Test
     public void shouldRemoveOneExercise() {
 
-        final Exercise exercise = ExerciseStubFactory.createStubExercise(1L);
+        final Exercise exercise = ExerciseStubFactory.createStubExercise(EXERCISE_ID);
 
-        when(exerciseRepository.findOne(anyLong()))
+        when(exerciseRepository.findOne(anyInt()))
                 .thenReturn(Optional.of(exercise));
 
         sut.deleteExerciseById(EXERCISE_ID);
@@ -148,7 +148,7 @@ public class ExerciseResourceBeanTest {
                         SOME_NEW_DESCRIPTION,
                         SOME_NEW_NAME);
 
-        when(exerciseRepository.findOne(anyLong()))
+        when(exerciseRepository.findOne(anyInt()))
                 .thenReturn(Optional.of(originalEx));
 
         when(exerciseRepository.save(any(Exercise.class)))
@@ -176,7 +176,7 @@ public class ExerciseResourceBeanTest {
                         SOME_NEW_DESCRIPTION,
                         SOME_NEW_NAME);
 
-        when(exerciseRepository.findOne(anyLong()))
+        when(exerciseRepository.findOne(anyInt()))
                 .thenReturn(Optional.empty());
 
         try {

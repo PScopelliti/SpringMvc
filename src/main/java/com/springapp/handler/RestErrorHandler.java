@@ -46,7 +46,7 @@ public class RestErrorHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Error entityNotFound(final EntityNotFoundException ex) {
-        final Long entityId = ex.getId();
+        final Integer entityId = ex.getId();
         final String entityName = ex.getEntityName();
         return new Error(StringUtils.lowerCase(entityName), entityName + " " + entityId + " not found");
     }

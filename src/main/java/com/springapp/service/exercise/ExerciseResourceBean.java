@@ -26,7 +26,7 @@ public class ExerciseResourceBean implements ExerciseResource {
      * {@inheritDoc}
      */
     @Override
-    public Exercise findExercise(final Long id) {
+    public Exercise findExercise(final Integer id) {
         final Optional<Exercise> result = exerciseRepository.findOne(id);
 
         // Check if exercise exists
@@ -60,7 +60,7 @@ public class ExerciseResourceBean implements ExerciseResource {
      * {@inheritDoc}
      */
     @Override
-    public void deleteExerciseById(final Long id) {
+    public void deleteExerciseById(final Integer id) {
 
         findExercise(id);
 
@@ -71,7 +71,7 @@ public class ExerciseResourceBean implements ExerciseResource {
      * {@inheritDoc}
      */
     @Override
-    public Exercise updateExercise(final Exercise exercise, final Long id) {
+    public Exercise updateExercise(final Exercise exercise, final Integer id) {
         final Exercise ex = findExercise(id);
         ex.setDescription(exercise.getDescription());
         ex.setName(exercise.getName());
