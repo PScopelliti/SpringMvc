@@ -16,7 +16,7 @@ public interface UserResource {
      *
      * @param id
      */
-    void deleteUserById(Long id);
+    void deleteUserById(Integer id);
 
 
     /**
@@ -33,7 +33,7 @@ public interface UserResource {
      * @param id
      * @return
      */
-    User showUserDetails(Long id);
+    User showUserDetails(Integer id);
 
     /**
      * This method update an user.
@@ -41,7 +41,7 @@ public interface UserResource {
      * @param user
      * @return
      */
-    User updateUser(User user, Long id);
+    User updateUser(User user, Integer id);
 
     /**
      * This method return a list of exercises for a specified user
@@ -49,7 +49,7 @@ public interface UserResource {
      * @param id
      * @return
      */
-    Collection<Exercise> getExercisesPerUser(Long id);
+    Collection<Exercise> getExercisesPerUser(Integer id);
 
     /**
      * This method return a user with specified Id.
@@ -58,7 +58,7 @@ public interface UserResource {
      * @return
      * @throws EntityNotFoundException if user doesn't exist.
      */
-    User findUser(Long userId);
+    User findUser(Integer userId);
 
     /**
      * This method returns a list of users.

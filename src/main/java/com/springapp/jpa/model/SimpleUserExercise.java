@@ -11,24 +11,24 @@ import java.util.Date;
 public class SimpleUserExercise implements Serializable {
 
     private static final long serialVersionUID = 34955927763320848L;
-    private Long userId;
-    private Long exerciseId;
+    private Integer userId;
+    private Integer exerciseId;
     private Date creationDate;
 
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(final Long userId) {
+    public void setUserId(final Integer userId) {
         this.userId = userId;
     }
 
-    public Long getExerciseId() {
+    public Integer getExerciseId() {
         return exerciseId;
     }
 
-    public void setExerciseId(final Long exerciseId) {
+    public void setExerciseId(final Integer exerciseId) {
         this.exerciseId = exerciseId;
     }
 

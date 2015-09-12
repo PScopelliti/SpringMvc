@@ -28,7 +28,7 @@ public class User implements EntityId {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private Long id;
+    private Integer id;
 
     @NotNull
     @Size(min = 5, max = 20)
@@ -40,11 +40,11 @@ public class User implements EntityId {
     private Set<UserExercise> userExercise = new HashSet<>();
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(final Long id) {
+    public void setId(final Integer id) {
         this.id = id;
     }
 

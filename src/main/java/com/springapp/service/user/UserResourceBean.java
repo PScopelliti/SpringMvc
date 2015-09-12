@@ -27,7 +27,7 @@ public class UserResourceBean implements UserResource {
      * {@inheritDoc}
      */
     @Override
-    public void deleteUserById(final Long id) {
+    public void deleteUserById(final Integer id) {
         // Check if user exists.
         findUser(id);
 
@@ -38,7 +38,7 @@ public class UserResourceBean implements UserResource {
      * {@inheritDoc}
      */
     @Override
-    public User findUser(final Long userId) {
+    public User findUser(final Integer userId) {
         final Optional<User> resultUser = userRepository.findOne(userId);
 
         // Check if user exists
@@ -53,7 +53,7 @@ public class UserResourceBean implements UserResource {
      * {@inheritDoc}
      */
     @Override
-    public Collection<Exercise> getExercisesPerUser(final Long id) {
+    public Collection<Exercise> getExercisesPerUser(final Integer id) {
 
         findUser(id);
 
@@ -65,7 +65,7 @@ public class UserResourceBean implements UserResource {
      */
     @Override
     public User updateUser(final User user,
-                           final Long id) {
+                           final Integer id) {
         final User us = findUser(id);
         us.setUsername(user.getUsername());
         return userRepository.save(us);
@@ -75,7 +75,7 @@ public class UserResourceBean implements UserResource {
      * {@inheritDoc}
      */
     @Override
-    public User showUserDetails(final Long id) {
+    public User showUserDetails(final Integer id) {
         return findUser(id);
     }
 

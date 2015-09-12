@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
 
-    private static final Long USER_ID = 123L;
+    private static final Integer USER_ID = 123;
     private static final String SOME_NEW_USERNAME = "some_new_username";
 
     @Mock
@@ -95,7 +95,7 @@ public class UserControllerTest {
 
         final User user = UserStubFactory.createStubbedUser(USER_ID);
 
-        when(userResource.showUserDetails(anyLong()))
+        when(userResource.showUserDetails(anyInt()))
                 .thenReturn(user);
 
         mockMvc.perform(get("/users/{id}", USER_ID))
@@ -119,7 +119,7 @@ public class UserControllerTest {
                 .createStubUserWithCustomFields(USER_ID,
                         SOME_NEW_USERNAME);
 
-        when(userResource.updateUser(isA(User.class), anyLong()))
+        when(userResource.updateUser(isA(User.class), anyInt()))
                 .thenReturn(updatedUser);
 
         mockMvc.perform(put("/users/{id}", USER_ID)
@@ -148,10 +148,10 @@ public class UserControllerTest {
         final User originalUser = UserStubFactory.createStubbedUser(USER_ID);
         final List<Exercise> exercises = new ArrayList<>(ExerciseStubFactory.createStubExercisesList(3));
 
-        when(userResource.findUser(anyLong()))
+        when(userResource.findUser(anyInt()))
                 .thenReturn(originalUser);
 
-        when(userResource.getExercisesPerUser(anyLong()))
+        when(userResource.getExercisesPerUser(anyInt()))
                 .thenReturn(exercises);
 
         mockMvc.perform(get("/users/{userId}/exercises", USER_ID))
@@ -175,7 +175,7 @@ public class UserControllerTest {
 
         final User originalUser = UserStubFactory.createStubbedUser(USER_ID);
 
-        when(userResource.findUser(anyLong()))
+        when(userResource.findUser(anyInt()))
                 .thenReturn(originalUser);
 
         mockMvc.perform(delete("/users/{id}", USER_ID))

@@ -38,7 +38,7 @@ public class UserController {
     @RequestMapping(value = "/{id}",
             method = RequestMethod.DELETE)
     public void deleteUserById(@PathVariable
-                               final Long id) {
+                               final Integer id) {
 
         userResource.deleteUserById(id);
     }
@@ -70,7 +70,7 @@ public class UserController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public User showUserDetails(@PathVariable
-                                final Long id) {
+                                final Integer id) {
 
         return userResource.showUserDetails(id);
     }
@@ -82,7 +82,7 @@ public class UserController {
                            @RequestBody
                            final User user,
                            @PathVariable
-                           final Long id) {
+                           final Integer id) {
 
         return userResource.updateUser(user, id);
     }
@@ -91,7 +91,7 @@ public class UserController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<Exercise> getExercisesPerUser(@PathVariable
-                                                    final Long id) {
+                                                    final Integer id) {
 
         return userResource.getExercisesPerUser(id);
     }

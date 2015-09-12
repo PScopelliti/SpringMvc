@@ -44,17 +44,13 @@ public class UserExerciseController {
         this.exerciseResource = exerciseResource;
     }
 
-    /**
-     * TODO:  WRITE UNIT TEST
-     */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{userId}/exercises/{exerciseId}",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserExercise> postExercisePerUser(@PathVariable
-                                                            final Long userId,
+                                                            final Integer userId,
                                                             @PathVariable
-                                                            final Long exerciseId) {
+                                                            final Integer exerciseId) {
 
         final User resultUser = userResource.findUser(userId);
 
@@ -68,7 +64,7 @@ public class UserExerciseController {
         userExercise.setPk(userExerciseId);
         userExercise.setCreatedDate(new Date());
 
-        UserExercise savedUserExercise = userExerciseResource.save(userExercise);
+        final UserExercise savedUserExercise = userExerciseResource.save(userExercise);
 
         final HttpHeaders headers = new HttpHeaders();
         final URI locationUri = ServletUriComponentsBuilder
@@ -87,17 +83,14 @@ public class UserExerciseController {
         return responseEntity;
     }
 
-    /**
-     * TODO:  WRITE UNIT TEST
-     */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{userId}/exercises/{exerciseId}",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteExercisePerUser(@PathVariable
-                                      final Long userId,
+                                      final Integer userId,
                                       @PathVariable
-                                      final Long exerciseId) {
+                                      final Integer exerciseId) {
 
         final User resultUser = userResource.findUser(userId);
 
@@ -106,10 +99,7 @@ public class UserExerciseController {
         userExerciseResource.deleteUserExercise(resultExercise, resultUser);
     }
 
-    /**
-     * {@inheritDoc}
-     * TODO:  WRITE UNIT TEST
-     */
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/exercises",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)

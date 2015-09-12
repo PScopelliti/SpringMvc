@@ -22,20 +22,19 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
- * This class contains methods for verify that the User controller manage requests/responses correctly.
+ * This class contains tests for verify that the User Resource works correctly.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceBeanTest {
 
-    private static final Long USER_ID = 123L;
-    private static final Long EXERCISE_ID = 12L;
+    private static final Integer USER_ID = 123;
     private static final String SOME_NEW_USERNAME = "some_new_username";
 
     @Mock
@@ -61,7 +60,7 @@ public class UserResourceBeanTest {
 
         final User user = UserStubFactory.createStubbedUser(USER_ID);
 
-        when(userRepository.findOne(anyLong()))
+        when(userRepository.findOne(anyInt()))
                 .thenReturn(Optional.of(user));
 
         sut.deleteUserById(USER_ID);
@@ -77,7 +76,7 @@ public class UserResourceBeanTest {
     @Test
     public void shouldAddNewUser() {
 
-        final User user = UserStubFactory.createStubbedUser(1L);
+        final User user = UserStubFactory.createStubbedUser(USER_ID);
 
         when(userRepository.save(any(User.class)))
                 .thenReturn(user);
@@ -102,7 +101,7 @@ public class UserResourceBeanTest {
 
         final User user = UserStubFactory.createStubbedUser(USER_ID);
 
-        when(userRepository.findOne(anyLong()))
+        when(userRepository.findOne(anyInt()))
                 .thenReturn(Optional.of(user));
 
         final User result = sut.showUserDetails(USER_ID);
@@ -126,7 +125,7 @@ public class UserResourceBeanTest {
                 .createStubUserWithCustomFields(USER_ID,
                         SOME_NEW_USERNAME);
 
-        when(userRepository.findOne(anyLong()))
+        when(userRepository.findOne(anyInt()))
                 .thenReturn(Optional.of(originalUser));
 
         when(userRepository.save(any(User.class)))
@@ -152,7 +151,7 @@ public class UserResourceBeanTest {
                 .createStubUserWithCustomFields(USER_ID,
                         SOME_NEW_USERNAME);
 
-        when(userRepository.findOne(anyLong()))
+        when(userRepository.findOne(anyInt()))
                 .thenReturn(Optional.empty());
 
         try {
@@ -192,10 +191,10 @@ public class UserResourceBeanTest {
         final User originalUser = UserStubFactory.createStubbedUser(USER_ID);
         final Collection<Exercise> exercises = ExerciseStubFactory.createStubExercisesList(3);
 
-        when(userRepository.findOne(anyLong()))
+        when(userRepository.findOne(anyInt()))
                 .thenReturn(Optional.of(originalUser));
 
-        when(userRepository.getExercisesPerUser(anyLong()))
+        when(userRepository.getExercisesPerUser(anyInt()))
                 .thenReturn(exercises);
 
         Collection<Exercise> result = sut.getExercisesPerUser(USER_ID);

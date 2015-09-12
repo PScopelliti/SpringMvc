@@ -21,8 +21,8 @@ public class UserExerciseUtility {
      */
     public static final SimpleUserExercise createSimpleUserExercise(final UserExercise userExercise) {
         final SimpleUserExercise simpleUserExercise = new SimpleUserExercise();
-        simpleUserExercise.setUserId(userExercise.getUser().getId());
-        simpleUserExercise.setExerciseId(userExercise.getExercise().getId());
+        simpleUserExercise.setUserId(userExercise.getUser() != null ? userExercise.getUser().getId() : null);
+        simpleUserExercise.setExerciseId(userExercise.getExercise() != null ? userExercise.getExercise().getId() : null);
         simpleUserExercise.setCreationDate(userExercise.getCreatedDate());
         return simpleUserExercise;
     }

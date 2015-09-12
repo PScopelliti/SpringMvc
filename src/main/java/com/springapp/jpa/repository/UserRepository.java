@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * This interface represent a user repository.
  */
-public interface UserRepository extends BaseRepository<User, Long> {
+public interface UserRepository extends BaseRepository<User, Integer> {
 
     String GET_EXERCISES_PER_USER_QUERY = "SELECT u.pk.exercise " +
             "FROM Exercise e LEFT JOIN e.userExercise u " +
@@ -21,5 +21,5 @@ public interface UserRepository extends BaseRepository<User, Long> {
      */
     @Query(GET_EXERCISES_PER_USER_QUERY)
     Collection<Exercise> getExercisesPerUser(@Param("userId")
-                                             Long userId);
+                                             Integer userId);
 }
