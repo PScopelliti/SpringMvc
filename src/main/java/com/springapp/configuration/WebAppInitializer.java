@@ -2,6 +2,7 @@ package com.springapp.configuration;
 
 import com.springapp.configuration.persistence.PersistenceConfiguration;
 import com.springapp.configuration.root.ApplicationConfig;
+import com.springapp.configuration.security.SecurityConfig;
 import com.springapp.configuration.web.WebMvcConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -14,7 +15,9 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{ApplicationConfig.class, PersistenceConfiguration.class};
+        return new Class<?>[]{ApplicationConfig.class,
+                PersistenceConfiguration.class,
+                SecurityConfig.class};
     }
 
     @Override
