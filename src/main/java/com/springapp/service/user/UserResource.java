@@ -3,6 +3,7 @@ package com.springapp.service.user;
 import com.springapp.exception.EntityNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.Collection;
 
@@ -65,6 +66,7 @@ public interface UserResource {
      *
      * @return
      */
+    @Secured("USER")
     Collection<User> getUsers();
 }
 
