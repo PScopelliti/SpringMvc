@@ -22,7 +22,7 @@ import java.util.Set;
  * This class model a User
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "spring")
 public class User implements EntityId {
 
     @Id

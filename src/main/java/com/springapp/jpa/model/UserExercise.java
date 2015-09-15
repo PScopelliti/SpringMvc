@@ -20,7 +20,7 @@ import java.util.Date;
  * This class defines a User exercise object.
  */
 @Entity
-@Table(name = "user_exercise")
+@Table(name = "user_exercise", schema = "spring")
 @AssociationOverrides({
         @AssociationOverride(name = "pk.user",
                 joinColumns = @JoinColumn(name = "user_id")),
