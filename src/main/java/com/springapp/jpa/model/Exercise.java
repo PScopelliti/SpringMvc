@@ -23,7 +23,7 @@ import java.util.Set;
  * Class that model an exercise.
  */
 @Entity
-@Table(name = "exercise")
+@Table(name = "exercise", schema = "spring")
 public class Exercise implements EntityId {
 
     @Id
