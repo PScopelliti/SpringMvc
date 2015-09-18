@@ -70,13 +70,13 @@ public class UserControllerTest {
         when(userResource.save(any(User.class)))
                 .thenReturn(user);
 
-        mockMvc.perform(post("/users/register")
+        mockMvc.perform(post("/api/v1/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(IntegrationTestUtil.convertObjectToJsonBytes(user)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", "http://localhost/users/" + USER_ID))
+                .andExpect(header().string("Location", "http://localhost/api/v1/users/" + USER_ID))
                 .andExpect(jsonPath("id").value(user.getId().intValue()))
                 .andExpect(jsonPath("username").value(user.getUsername()));
 
@@ -98,7 +98,7 @@ public class UserControllerTest {
         when(userResource.showUserDetails(anyInt()))
                 .thenReturn(user);
 
-        mockMvc.perform(get("/users/{id}", USER_ID))
+        mockMvc.perform(get("/api/v1/users/{id}", USER_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("id").value(user.getId().intValue()))
@@ -122,7 +122,7 @@ public class UserControllerTest {
         when(userResource.updateUser(isA(User.class), anyInt()))
                 .thenReturn(updatedUser);
 
-        mockMvc.perform(put("/users/{id}", USER_ID)
+        mockMvc.perform(put("/api/v1/users/{id}", USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(IntegrationTestUtil.convertObjectToJsonBytes(updatedUser)))
@@ -154,7 +154,7 @@ public class UserControllerTest {
         when(userResource.getExercisesPerUser(anyInt()))
                 .thenReturn(exercises);
 
-        mockMvc.perform(get("/users/{userId}/exercises", USER_ID))
+        mockMvc.perform(get("/api/v1/users/{userId}/exercises", USER_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id").value(exercises.get(0).getId().intValue()))
@@ -178,7 +178,7 @@ public class UserControllerTest {
         when(userResource.findUser(anyInt()))
                 .thenReturn(originalUser);
 
-        mockMvc.perform(delete("/users/{id}", USER_ID))
+        mockMvc.perform(delete("/api/v1/users/{id}", USER_ID))
                 .andExpect(status().isOk());
 
         verify(userResource, times(1)).deleteUserById(USER_ID);
@@ -197,7 +197,7 @@ public class UserControllerTest {
 
         when(userResource.getUsers()).thenReturn(userList);
 
-        mockMvc.perform(get("/users"))
+        mockMvc.perform(get("/api/v1/users"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id").value(userList.get(0).getId().intValue()))

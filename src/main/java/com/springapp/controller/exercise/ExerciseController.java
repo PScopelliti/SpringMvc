@@ -23,7 +23,7 @@ import java.util.Collection;
  * This class define a controller for exercises.
  */
 @RestController
-@RequestMapping(value = "/exercises")
+@RequestMapping(value = "/api/v1/exercises")
 public class ExerciseController {
 
     private final ExerciseResource exerciseResource;
@@ -44,7 +44,7 @@ public class ExerciseController {
 
         final HttpHeaders headers = new HttpHeaders();
         final URI locationUri = ServletUriComponentsBuilder
-                .fromCurrentServletMapping().path("/exercises/")
+                .fromCurrentServletMapping().path("/api/v1/exercises/")
                 .path(String.valueOf(savedExercise.getId()))
                 .build()
                 .toUri();

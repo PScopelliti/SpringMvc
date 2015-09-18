@@ -83,12 +83,12 @@ public class UserExerciseControllerTest {
         when(exerciseResource.findExercise(anyInt())).thenReturn(exercise);
         when(userExerciseResource.save(isA(UserExercise.class))).thenReturn(userExercise);
 
-        mockMvc.perform(post("/users/{userId}/exercises/{exerciseId}", USER_ID, EXERCISE_ID)
+        mockMvc.perform(post("/api/v1/users/{userId}/exercises/{exerciseId}", USER_ID, EXERCISE_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string("Location", "http://localhost/users/" + USER_ID + "/exercises/" + EXERCISE_ID));
+                .andExpect(header().string("Location", "http://localhost/api/v1/users/" + USER_ID + "/exercises/" + EXERCISE_ID));
 
         verify(userResource, times(1)).findUser(USER_ID);
         verify(exerciseResource, times(1)).findExercise(EXERCISE_ID);
@@ -104,7 +104,7 @@ public class UserExerciseControllerTest {
         when(userResource.findUser(anyInt())).thenReturn(user);
         when(exerciseResource.findExercise(anyInt())).thenReturn(exercise);
 
-        mockMvc.perform(delete("/users/{userId}/exercises/{exerciseId}", USER_ID, EXERCISE_ID))
+        mockMvc.perform(delete("/api/v1/users/{userId}/exercises/{exerciseId}", USER_ID, EXERCISE_ID))
                 .andExpect(status().isNoContent());
 
         verify(userResource, times(1)).findUser(USER_ID);
@@ -120,7 +120,7 @@ public class UserExerciseControllerTest {
 
         when(userExerciseResource.getUsersExercises()).thenReturn(simpleUserExercises);
 
-        mockMvc.perform(get("/users/exercises"))
+        mockMvc.perform(get("/api/v1/users/exercises"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].userId").value(listOfExercises.get(0).getUserId()))

@@ -28,7 +28,7 @@ import java.util.Date;
  * This class define a controller for userexercise.
  */
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/api/v1/users")
 public class UserExerciseController {
 
     private final ExerciseResource exerciseResource;
@@ -68,7 +68,7 @@ public class UserExerciseController {
 
         final HttpHeaders headers = new HttpHeaders();
         final URI locationUri = ServletUriComponentsBuilder
-                .fromCurrentServletMapping().path("/users/")
+                .fromCurrentServletMapping().path("/api/v1/users/")
                 .path(String.valueOf(savedUserExercise.getUser().getId()))
                 .path("/exercises/")
                 .path(String.valueOf(savedUserExercise.getExercise().getId()))

@@ -24,7 +24,7 @@ import java.util.Collection;
  * This class define a controller for users.
  */
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/api/v1/users")
 public class UserController {
 
     private final UserResource userResource;
@@ -54,7 +54,7 @@ public class UserController {
 
         final HttpHeaders headers = new HttpHeaders();
         final URI locationUri = ServletUriComponentsBuilder
-                .fromCurrentServletMapping().path("/users/")
+                .fromCurrentServletMapping().path("/api/v1/users/")
                 .path(String.valueOf(savedUser.getId()))
                 .build()
                 .toUri();
