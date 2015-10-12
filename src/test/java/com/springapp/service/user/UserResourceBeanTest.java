@@ -1,6 +1,6 @@
 package com.springapp.service.user;
 
-import com.springapp.exception.EntityNotFoundException;
+import com.springapp.exception.ResourceNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
 import com.springapp.jpa.repository.UserRepository;
@@ -156,7 +156,7 @@ public class UserResourceBeanTest {
 
         try {
             sut.updateUser(updatedUser, USER_ID);
-        } catch (EntityNotFoundException ex) {
+        } catch (ResourceNotFoundException ex) {
             verify(userRepository, times(1)).findOne(USER_ID);
         }
     }

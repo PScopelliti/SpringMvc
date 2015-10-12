@@ -1,6 +1,6 @@
 package com.springapp.service.userexercise;
 
-import com.springapp.exception.EntityNotFoundException;
+import com.springapp.exception.ResourceNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.SimpleUserExercise;
 import com.springapp.jpa.model.User;
@@ -109,7 +109,7 @@ public class UserExerciseResourceBeanTest {
 
         try {
             sut.findUserExercise(userExerciseId);
-        } catch (final EntityNotFoundException ex) {
+        } catch (final ResourceNotFoundException ex) {
             //Verify mocks
             verify(userExerciseRepository, times(1)).findOne(userExerciseId);
         }

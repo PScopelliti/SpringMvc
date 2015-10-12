@@ -1,6 +1,6 @@
 package com.springapp.service.exercise;
 
-import com.springapp.exception.EntityNotFoundException;
+import com.springapp.exception.ResourceNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.repository.ExerciseRepository;
 import com.springapp.utils.exercise.ExerciseStubFactory;
@@ -181,7 +181,7 @@ public class ExerciseResourceBeanTest {
 
         try {
             sut.updateExercise(updatedEx, EXERCISE_ID);
-        } catch (EntityNotFoundException ex) {
+        } catch (ResourceNotFoundException ex) {
             verify(exerciseRepository, times(1)).findOne(EXERCISE_ID);
         }
     }

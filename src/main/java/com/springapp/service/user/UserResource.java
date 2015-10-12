@@ -1,9 +1,8 @@
 package com.springapp.service.user;
 
-import com.springapp.exception.EntityNotFoundException;
+import com.springapp.exception.ResourceNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
-import org.springframework.security.access.annotation.Secured;
 
 import java.util.Collection;
 
@@ -57,7 +56,7 @@ public interface UserResource {
      *
      * @param userId
      * @return
-     * @throws EntityNotFoundException if user doesn't exist.
+     * @throws ResourceNotFoundException if user doesn't exist.
      */
     User findUser(Integer userId);
 
@@ -66,7 +65,6 @@ public interface UserResource {
      *
      * @return
      */
-    @Secured("USER")
     Collection<User> getUsers();
 }
 

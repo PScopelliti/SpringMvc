@@ -1,6 +1,6 @@
 package com.springapp.service.userexercise;
 
-import com.springapp.exception.EntityNotFoundException;
+import com.springapp.exception.ResourceNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.SimpleUserExercise;
 import com.springapp.jpa.model.User;
@@ -27,7 +27,7 @@ public interface UserExerciseResource {
      *
      * @param userExerciseId
      * @return
-     * @throws EntityNotFoundException if user doesn't exist.
+     * @throws ResourceNotFoundException if user doesn't exist.
      */
     UserExercise findUserExercise(UserExerciseId userExerciseId);
 

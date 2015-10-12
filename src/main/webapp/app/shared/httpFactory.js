@@ -3,47 +3,47 @@ app.factory('httpFactory', function ($http) {
     var factory = {};
 
     factory.getExercises = function () {
-        return $http.get('./exercises.json');
+        return $http.get('./api/v1/exercises.json');
     };
 
     factory.deleteExercise = function (id) {
-        return $http.delete('./exercises/' + id);
+        return $http.delete('./api/v1/exercises/' + id);
     };
 
     factory.updateExercise = function (id, exercise) {
-        return $http.put('./exercises/' + id, exercise);
+        return $http.put('./api/v1/exercises/' + id, exercise);
     };
 
     factory.addExercise = function (exercise) {
-        return $http.post('./exercises/register', exercise);
+        return $http.post('./api/v1/exercises/register', exercise);
     };
 
     factory.getUsers = function () {
-        return $http.get('./users.json');
+        return $http.get('./api/v1/users.json');
     };
 
     factory.updateUser = function (id, user) {
-        return $http.put('./user/' + id, user);
+        return $http.put('./api/v1/users/' + id, user);
     };
 
     factory.addUser = function (user) {
-        return $http.post('./users/register', user);
+        return $http.post('./api/v1/users/register', user);
     };
 
     factory.deleteUser = function (id) {
-        return $http.delete('./users/' + id);
+        return $http.delete('./api/v1/users/' + id);
     };
 
     factory.getUserExercises = function () {
-        return $http.get('./users/exercises');
+        return $http.get('./api/v1/users/exercises');
     };
 
     factory.deleteUserExercise = function (userId, exerciseId) {
-        return $http.delete('./users/' + userId + '/exercises/' + exerciseId);
+        return $http.delete('./api/v1/users/' + userId + '/exercises/' + exerciseId);
     };
 
     factory.saveUserExercise = function (userId, exerciseId) {
-        return $http.post('./users/' + userId + '/exercises/' + exerciseId);
+        return $http.post('./api/v1/users/' + userId + '/exercises/' + exerciseId);
     };
 
     return factory;

@@ -18,7 +18,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new Class<?>[]{ApplicationConfig.class,
                 PersistenceConfiguration.class,
                 SecurityConfiguration.class
-               // MethodSecurityConfiguration.class
+                // MethodSecurityConfiguration.class
         };
     }
 

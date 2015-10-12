@@ -1,6 +1,6 @@
 package com.springapp.service.user;
 
-import com.springapp.exception.EntityNotFoundException;
+import com.springapp.exception.ResourceNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.model.User;
 import com.springapp.jpa.repository.UserRepository;
@@ -43,7 +43,7 @@ public class UserResourceBean implements UserResource {
 
         // Check if user exists
         if (!resultUser.isPresent()) {
-            throw new EntityNotFoundException(userId, User.class.getSimpleName());
+            throw new ResourceNotFoundException("User with id " + userId + " not found");
         }
 
         return resultUser.get();

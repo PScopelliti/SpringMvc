@@ -1,6 +1,6 @@
 package com.springapp.service.exercise;
 
-import com.springapp.exception.EntityNotFoundException;
+import com.springapp.exception.ResourceNotFoundException;
 import com.springapp.jpa.model.Exercise;
 import com.springapp.jpa.repository.ExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class ExerciseResourceBean implements ExerciseResource {
 
         // Check if exercise exists
         if (!result.isPresent()) {
-            throw new EntityNotFoundException(id, Exercise.class.getSimpleName());
+            throw new ResourceNotFoundException("Exercise with id " + id + " not found.");
         }
 
         return result.get();
